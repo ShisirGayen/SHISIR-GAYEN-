@@ -1,55 +1,333 @@
 <!doctype html>
 <html lang="bn">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>KOLI — Personal AI Companion</title>
-  <style>
-    :root{--bg:#080b10;--panel:#111722;--panel2:#151d29;--line:#263244;--text:#edf7ff;--muted:#8d9bad;--cyan:#66e7f5;--violet:#b9a3ff;--green:#66e39a;--amber:#ffd27a;--red:#ff879b;--radius:20px}
-    *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 15% 0%,#12303b 0,transparent 32%),radial-gradient(circle at 90% 100%,#231842 0,transparent 35%),var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,sans-serif}
-    button,input,select{font:inherit} button{cursor:pointer}.shell{min-height:100vh;display:grid;grid-template-columns:250px 1fr}.side{border-right:1px solid var(--line);background:rgba(7,10,15,.8);padding:24px 16px;display:flex;flex-direction:column;gap:28px}.brand{display:flex;gap:12px;align-items:center}.logo{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;background:var(--cyan);color:#071016;font-size:22px;box-shadow:0 0 30px #66e7f544}.brand b{letter-spacing:.16em}.brand small{display:block;color:var(--muted);font-size:9px;letter-spacing:.2em;margin-top:3px}.label{font-size:10px;letter-spacing:.2em;color:#657386;text-transform:uppercase}.nav{display:grid;gap:6px}.nav button{border:0;background:transparent;color:var(--muted);padding:12px;border-radius:12px;text-align:left}.nav button:hover,.nav button.active{background:#ffffff0d;color:var(--text)}.nav button.active{box-shadow:inset 2px 0 var(--cyan)}.side-bottom{margin-top:auto;border:1px solid var(--line);border-radius:16px;padding:14px;background:linear-gradient(140deg,#1b1730,#101923)}.main{max-width:1400px;width:100%;padding:34px clamp(20px,4vw,56px)}.top{display:flex;justify-content:space-between;gap:20px;align-items:center}.pill{border:1px solid #ffffff16;border-radius:999px;padding:8px 12px;color:var(--muted);font-size:12px;background:#ffffff05}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green);margin-right:7px}.hero{margin:52px 0 25px}.hero h1{font-size:clamp(32px,5vw,65px);line-height:1;letter-spacing:-.06em;margin:10px 0}.gradient{background:linear-gradient(110deg,#fff,var(--cyan),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}.hero p{color:var(--muted);max-width:650px}.grid{display:grid;gap:18px}.two{grid-template-columns:minmax(0,1.4fr) minmax(280px,.8fr)}.three{grid-template-columns:repeat(3,1fr)}.card{border:1px solid #ffffff12;background:linear-gradient(145deg,#151c27dd,#0f141ddd);border-radius:var(--radius);padding:22px;box-shadow:0 20px 60px #0003}.assistant{min-height:350px;background:radial-gradient(circle at 20% 20%,#66e7f51f,transparent 35%),radial-gradient(circle at 90% 0%,#b9a3ff15,transparent 40%),#101721}.eyebrow{color:var(--cyan);font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase}.assistant h2{font-size:clamp(25px,3vw,39px);letter-spacing:-.04em;max-width:600px;margin:16px 0 30px}.prompts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}.prompts button,.secondary{background:#ffffff08;border:1px solid #ffffff12;color:var(--muted);border-radius:12px;padding:11px 13px;text-align:left}.prompts button:hover,.secondary:hover{border-color:#66e7f566;color:var(--text)}.composer{display:flex;gap:8px;border:1px solid #ffffff16;background:#080c12cc;border-radius:15px;padding:8px}.composer input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:var(--text);padding:0 8px}.primary{border:0;border-radius:12px;background:var(--cyan);color:#071016;padding:10px 14px;font-weight:700}.primary:hover{filter:brightness(1.1)}.icon{width:40px;padding:0;display:grid;place-items:center}.status-card h3{margin:10px 0 4px;font-size:20px}.muted{color:var(--muted);font-size:13px}.metric{font-size:32px;font-weight:700;margin-top:28px}.row{display:flex;align-items:center;justify-content:space-between;gap:12px}.bars{display:flex;align-items:end;gap:4px;height:28px}.bars i{display:block;width:6px;background:var(--cyan);border-radius:4px 4px 0 0}.section{margin-top:22px}.section h2{font-size:19px;margin:0 0 14px}.feature{display:flex;gap:13px;align-items:flex-start;padding:13px 0;border-bottom:1px solid #ffffff0d}.feature:last-child{border-bottom:0}.feature-icon{width:34px;height:34px;display:grid;place-items:center;border-radius:10px;background:#66e7f512;color:var(--cyan)}.feature h4{margin:0 0 5px}.feature p{margin:0;color:var(--muted);font-size:12px;line-height:1.5}.tag{font-size:10px;border-radius:999px;padding:4px 8px;background:#ffffff0a;color:var(--muted)}.tag.green{color:var(--green);background:#66e39a14}.tag.amber{color:var(--amber);background:#ffd27a14}.settings{display:grid;gap:12px}.setting{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid #ffffff0d;border-radius:14px;padding:14px;background:#ffffff04}.setting strong{display:block;font-size:13px}.setting span{display:block;color:var(--muted);font-size:11px;margin-top:4px}.switch{width:42px;height:24px;border-radius:20px;background:#2b3748;position:relative;border:0}.switch:after{content:'';position:absolute;width:18px;height:18px;border-radius:50%;background:#8694a8;left:3px;top:3px;transition:.18s}.switch.on{background:#287d85}.switch.on:after{left:21px;background:var(--cyan)}.notice{font-size:11px;color:var(--muted);line-height:1.6;border-left:2px solid var(--amber);padding-left:10px}.footer{margin-top:28px;color:#647184;font-size:11px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}.toast{position:fixed;right:20px;bottom:20px;background:#182334;border:1px solid #66e7f555;border-radius:14px;padding:13px 16px;display:none;box-shadow:0 15px 45px #0008;max-width:320px;font-size:13px}.toast.show{display:block}
-    @media(max-width:900px){.shell{display:block}.side{position:static;border-right:0;border-bottom:1px solid var(--line);padding:16px;display:block}.side .nav,.side-bottom{display:none}.brand{justify-content:center}.main{padding:25px 16px}.two,.three{grid-template-columns:1fr}.hero{margin-top:32px}.top{display:none}}
-  </style>
-</head>
-<body>
-  <div class="shell">
-    <aside class="side">
-      <div class="brand"><div class="logo">✦</div><div><b>KOLI</b><small>PERSONAL INTELLIGENCE</small></div></div>
-      <div><div class="label">Workspace</div><div class="nav"><button class="active">⌁ Overview</button><button>◌ Conversations</button><button>□ Tasks & Plans</button><button>⌘ Projects</button><button>◈ Settings</button></div></div>
-      <div class="side-bottom"><b>Safe by design</b><p class="muted">KOLI never uses your microphone, camera, sensors or network data without your permission.</p></div>
-    </aside>
-    <main class="main">
-      <div class="top"><span class="pill"><span class="dot"></span>KOLI online · local demo mode</span><span class="pill">SHISIR GAYEN × KOLI</span></div>
-      <section class="hero"><div class="eyebrow">Personal AI command center</div><h1>Good evening, <span class="gradient">Shisir.</span></h1><p>KOLI is ready to help with study, research, writing, coding, planning and creative work — with clear permissions at every step.</p></section>
-      <section class="grid two">
-        <div class="card assistant"><div class="eyebrow">✦ KOLI AI ASSISTANT</div><h2>What would you like to work on today?</h2><div class="prompts"><button onclick="fillPrompt('Make a study plan for today')">Make a study plan</button><button onclick="fillPrompt('Explain a topic simply')">Explain a topic</button><button onclick="fillPrompt('Create a YouTube script')">Create something</button></div><div class="composer"><input id="prompt" placeholder="Ask KOLI anything..." onkeydown="if(event.key==='Enter')askKoli()"><button class="secondary icon" onclick="startVoice()" title="Voice input">♩</button><button class="primary icon" onclick="askKoli()" title="Send">➤</button></div><p id="reply" class="muted" style="margin-top:14px"></p></div>
-        <div class="grid">
-          <div class="card status-card"><div class="row"><div><div class="label">Default voice</div><h3>Feminine voice</h3><span class="muted">English / বাংলা · adjustable</span></div><span style="font-size:28px">◉</span></div><button class="secondary" style="margin-top:20px;width:100%" onclick="speak('Hi Shisir, KOLI is ready to help.')">Test voice</button></div>
-          <div class="card status-card"><div class="row"><div><div class="label">Network quality</div><h3 id="networkState">Checking…</h3><span class="muted">Connection information only — no Wi‑Fi scanning</span></div><span class="bars"><i style="height:8px"></i><i style="height:14px"></i><i style="height:22px"></i><i style="height:28px"></i></span></div><div class="metric" id="networkSpeed">—</div><span class="muted">estimated downlink</span></div>
-        </div>
-      </section>
-      <section class="grid three section">
-        <div class="card"><div class="row"><div><div class="label">Device permissions</div><h2>Permission center</h2></div><span class="tag green">USER CONTROLLED</span></div><div class="settings"><div class="setting"><div><strong>Microphone</strong><span>Voice input and wake word</span></div><button class="switch" id="micSwitch" onclick="requestMic()"></button></div><div class="setting"><div><strong>Camera / gestures</strong><span>Only after camera permission</span></div><button class="switch" id="cameraSwitch" onclick="requestCamera()"></button></div><div class="setting"><div><strong>Bluetooth sensor</strong><span>Connect a device you choose</span></div><button class="switch" id="btSwitch" onclick="connectBluetooth()"></button></div></div></div>
-        <div class="card"><div class="row"><div><div class="label">Free AI model hub</div><h2>Model adapters</h2></div><span class="tag">BRING YOUR KEY</span></div><div class="feature"><div class="feature-icon">✦</div><div><h4>Local / browser model</h4><p>Use a local model or your own compatible endpoint. No Manus credit counter is involved.</p></div></div><div class="feature"><div class="feature-icon">◎</div><div><h4>OpenAI-compatible API</h4><p>Connect any provider that exposes a compatible chat endpoint through a secure backend.</p></div></div><div class="feature"><div class="feature-icon">⊙</div><div><h4>Model routing</h4><p>Choose fast, reasoning, coding or low-cost models per task.</p></div></div><p class="notice">A browser-only page cannot safely hide API keys. Put provider keys in a backend or serverless function.</p></div>
-        <div class="card"><div class="row"><div><div class="label">Human signals</div><h2>Gesture readiness</h2></div><span class="tag amber">CAMERA REQUIRED</span></div><div class="feature"><div class="feature-icon">◌</div><div><h4 id="gestureTitle">Permission not granted</h4><p id="gestureText">KOLI can be prepared for gesture recognition, but it will not record or analyze movement until you explicitly enable the camera.</p></div></div><div class="feature"><div class="feature-icon">!</div><div><h4>Privacy boundary</h4><p>Gesture output should be treated as approximate UI input, not identity, emotion, health or intent diagnosis.</p></div></div></div>
-      </section>
-      <footer class="footer"><span>SHISIR GAYEN × KOLI · Your Personal AI. Always Ready to Help.</span><span>Unlimited local usage is possible; paid provider limits still apply.</span></footer>
-    </main>
-  </div>
-  <div id="toast" class="toast"></div>
-  <script>
-    const $=id=>document.getElementById(id);
-    function toast(text){const el=$('toast');el.textContent=text;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),4200)}
-    function fillPrompt(text){$('prompt').value=text;$('prompt').focus()}
-    function askKoli(){const value=$('prompt').value.trim();if(!value)return; $('reply').textContent='KOLI demo: request received — connect your approved AI endpoint to generate the real answer.';toast('Request captured safely. No external data was accessed.');}
-    function speak(text){if(!('speechSynthesis' in window)){toast('This browser does not support speech synthesis.');return} const u=new SpeechSynthesisUtterance(text);u.lang='en-US';const voices=speechSynthesis.getVoices();const preferred=voices.find(v=>/female|zira|samantha|karen|ava|victoria/i.test(v.name));if(preferred)u.voice=preferred;u.rate=.96;u.pitch=1.08;speechSynthesis.cancel();speechSynthesis.speak(u);toast('Voice test started. Voice identity and age cannot be guaranteed by the browser.');}
-    function startVoice(){if(!('SpeechRecognition' in window||'webkitSpeechRecognition' in window)){toast('Speech recognition is not available in this browser.');return}const R=window.SpeechRecognition||window.webkitSpeechRecognition;const r=new R();r.lang='bn-BD';r.onstart=()=>toast('Listening — browser microphone permission is active.');r.onresult=e=>{$('prompt').value=e.results[0][0].transcript;askKoli()};r.onerror=()=>toast('Voice input stopped or permission was denied.');r.start()}
-    async function requestMic(){try{const stream=await navigator.mediaDevices.getUserMedia({audio:true});stream.getTracks().forEach(t=>t.stop());$('micSwitch').classList.add('on');toast('Microphone permission granted for this session.');}catch(e){toast('Microphone permission was denied or unavailable.');}}
-    async function requestCamera(){try{const stream=await navigator.mediaDevices.getUserMedia({video:true});stream.getTracks().forEach(t=>t.stop());$('cameraSwitch').classList.add('on');$('gestureTitle').textContent='Camera permission granted';$('gestureText').textContent='Gesture module is ready for an approved vision model. No video is uploaded by this demo.';toast('Camera permission granted. Gesture recognition still needs a vision model.');}catch(e){toast('Camera permission was denied or unavailable.');}}
-    async function connectBluetooth(){if(!navigator.bluetooth){toast('Web Bluetooth is not supported here. Use a compatible Chromium browser.');return}try{const device=await navigator.bluetooth.requestDevice({acceptAllDevices:true,optionalServices:[]});$('btSwitch').classList.add('on');toast('Selected sensor: '+(device.name||'unnamed device')+'. Add a known service UUID to read its data.');}catch(e){toast('No Bluetooth device selected.');}}
-    function network(){const c=navigator.connection||navigator.mozConnection||navigator.webkitConnection;if(!c){$('networkState').textContent='Browser limited';$('networkSpeed').textContent='—';return}const d=c.downlink||0;$('networkSpeed').textContent=d?d+' Mbps':'—';$
-$('networkState').textContent=c.effectiveType?c.effectiveType.toUpperCase():'Connected';}
-    network();(navigator.connection||{}).addEventListener?.('change',network);speechSynthesis?.addEventListener?.('voiceschanged',()=>{});
-  </script>
-</body>
-</html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KOLI — Shisir's Personal AI</title>
+
+<style>
+:root{
+  --bg:#06090e;
+  --panel:#0d131c;
+  --panel2:#111a25;
+  --line:#202c3c;
+  --text:#f1f7ff;
+  --muted:#8492a5;
+  --cyan:#62e8f5;
+  --violet:#a996ff;
+  --green:#5ee39a;
+  --amber:#ffd477;
+  --red:#ff7189;
+  --radius:22px;
+}
+
+*{box-sizing:border-box}
+
+html{scroll-behavior:smooth}
+
+body{
+  margin:0;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 15% 0%,#12333d 0,transparent 30%),
+    radial-gradient(circle at 90% 90%,#25183e 0,transparent 34%),
+    var(--bg);
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+
+button,input{
+  font:inherit;
+}
+
+button{cursor:pointer}
+
+.shell{
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:245px 1fr;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+  position:sticky;
+  top:0;
+  height:100vh;
+  padding:22px 15px;
+  border-right:1px solid var(--line);
+  background:#070b11dd;
+  backdrop-filter:blur(20px);
+  display:flex;
+  flex-direction:column;
+}
+
+.logo-box{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:8px;
+  margin-bottom:32px;
+}
+
+.logo{
+  width:43px;
+  height:43px;
+  border-radius:14px;
+  display:grid;
+  place-items:center;
+  color:#061016;
+  font-size:22px;
+  font-weight:900;
+  background:linear-gradient(135deg,var(--cyan),#fff);
+  box-shadow:0 0 35px #62e8f544;
+}
+
+.logo-text b{
+  display:block;
+  letter-spacing:.22em;
+  font-size:15px;
+}
+
+.logo-text span{
+  color:#647286;
+  font-size:8px;
+  letter-spacing:.2em;
+}
+
+.menu-title{
+  color:#596779;
+  font-size:9px;
+  letter-spacing:.2em;
+  margin:0 10px 9px;
+}
+
+.nav{
+  display:grid;
+  gap:5px;
+}
+
+.nav button{
+  border:0;
+  background:transparent;
+  color:var(--muted);
+  padding:13px;
+  border-radius:13px;
+  text-align:left;
+  transition:.2s;
+}
+
+.nav button:hover,
+.nav button.active{
+  color:var(--text);
+  background:#ffffff0b;
+}
+
+.nav button.active{
+  box-shadow:inset 2px 0 var(--cyan);
+}
+
+.profile{
+  margin-top:auto;
+  padding:15px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:linear-gradient(145deg,#141d2b,#0c121b);
+}
+
+.profile-name{
+  font-weight:700;
+}
+
+.profile-status{
+  color:var(--green);
+  font-size:11px;
+  margin-top:4px;
+}
+
+/* MAIN */
+
+.main{
+  width:100%;
+  max-width:1450px;
+  padding:30px clamp(18px,4vw,55px);
+}
+
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+}
+
+.pill{
+  border:1px solid #ffffff12;
+  background:#ffffff05;
+  border-radius:999px;
+  padding:8px 12px;
+  color:var(--muted);
+  font-size:11px;
+}
+
+.online{
+  display:inline-block;
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 12px var(--green);
+  margin-right:7px;
+}
+
+/* HERO */
+
+.hero{
+  margin:55px 0 28px;
+}
+
+.eyebrow{
+  color:var(--cyan);
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+}
+
+.hero h1{
+  margin:12px 0;
+  font-size:clamp(38px,6vw,72px);
+  line-height:.95;
+  letter-spacing:-.065em;
+}
+
+.gradient{
+  background:linear-gradient(110deg,#fff,var(--cyan),var(--violet));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+
+.hero p{
+  color:var(--muted);
+  max-width:650px;
+  line-height:1.7;
+}
+
+/* GRID */
+
+.grid{
+  display:grid;
+  gap:18px;
+}
+
+.two{
+  grid-template-columns:minmax(0,1.45fr) minmax(280px,.7fr);
+}
+
+.three{
+  grid-template-columns:repeat(3,1fr);
+}
+
+.card{
+  border:1px solid #ffffff11;
+  border-radius:var(--radius);
+  background:
+    linear-gradient(145deg,#131b27ee,#0c121add);
+  box-shadow:0 25px 70px #0005;
+}
+
+/* AI */
+
+.ai-card{
+  min-height:470px;
+  padding:26px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  overflow:hidden;
+  position:relative;
+}
+
+.ai-card:before{
+  content:"";
+  position:absolute;
+  width:280px;
+  height:280px;
+  right:-100px;
+  top:-100px;
+  border-radius:50%;
+  background:#62e8f51b;
+  filter:blur(20px);
+}
+
+.ai-top{
+  position:relative;
+  z-index:1;
+}
+
+.ai-title{
+  font-size:clamp(27px,3vw,42px);
+  letter-spacing:-.05em;
+  margin:15px 0;
+  max-width:650px;
+}
+
+.koli-orb{
+  width:62px;
+  height:62px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:
+    radial-gradient(circle at 35% 30%,#fff,var(--cyan) 25%,#16808c 65%,#091b20);
+  box-shadow:
+    0 0 25px #62e8f566,
+    0 0 80px #62e8f522;
+  animation:pulse 3s infinite;
+}
+
+@keyframes pulse{
+  50%{
+    transform:scale(1.05);
+    box-shadow:0 0 45px #62e8f588,0 0 100px #62e8f533;
+  }
+}
+
+.quick{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:20px 0;
+}
+
+.quick button,
+.secondary{
+  border:1px solid #ffffff13;
+  background:#ffffff07;
+  color:var(--muted);
+  padding:10px 13px;
+  border-radius:12px;
+}
+
+.quick button:hover,
+.secondary:hover{
+  color:var(--text);
+  border-color:#62e8f555;
+}
+
+.chat{
+  position:relative;
+  z-index:2;
+}
+
+.composer{
+  display:flex;
+  gap:7px;
+  padding:7px;
+  border:1px solid #ffffff16;
+  background:#060a0fcc;
+  border-radius:16px;
+}
+
+.composer input{
+  flex:1;
+ 
