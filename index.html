@@ -158,8 +158,7 @@
       font-size: 1.4rem;
       margin-bottom: 6px;
     }
-
-    .feature-card .title {
+.feature-card .title {
       font-weight: 600;
       font-size: 0.95rem;
       margin-bottom: 4px;
@@ -398,8 +397,7 @@
       background: var(--primary);
       color: white;
     }
-
-    .icon-btn.mic.active {
+.icon-btn.mic.active {
       background: var(--danger);
       animation: pulse 1s infinite;
     }
@@ -654,731 +652,7 @@
   </div>
 
   <script>
-    // ===== CONFIG =====
-    // আপনার GitHub avatar URL এখানে বসান
-    const GITHUB_AVATAR = "https://avatars.githubusercontent.com/u/9919?v=4"; // ← এখানে আপনার লিংক দিন
-
-    document.getElementById('userLogo').src = GITHUB_AVATAR;
-    document.getElementById('userAvatar').src = GITHUB_AVATAR;
-
-    let messageCount = 1;
-    let isListening = false;
-    let recognition = null;
-
-    // Device & Browser detection
-    function detectEnvironment() {
-      const ua = navigator.userAgent;
-      let browser = "Unknown";
-      if (ua.includes("Chrome")) browser = "Chrome";
-      else if (ua.includes("Firefox")) browser = "Firefox";
-      else if (ua.includes("Safari")) browser = "Safari";
-      else if (ua.includes("Edge")) browser = "Edge";
-
-      let device = /Mobile|Android|iPhone/i.test(ua) ? "Mobile" : "Desktop";
-      document.getElementById('deviceInfo').textContent = device;
-      document.getElementById('browserInfo').textContent = browser;
-    }
-
-    function updateTime() {
-      const now = new Date();
-      document.getElementById('localTime').textContent = now.toLocaleTimeString();
-      document.getElementById('lastUpdate').textContent = "Last update: " + now.toLocaleTimeString();
-    }
-
-    detectEnvironment();
-    updateTime();
-    setInterval(updateTime, 1000);
-    setInterval(() => {
-      document.getElementById('lastUpdate').textContent = "Last update: " + new Date().toLocaleTimeString();
-    }, 60000);
-
-    // ===== CHAT FUNCTIONS =====
-    function addMessage(text, isUser = false) {
-      const messages = document.getElementById('messages');
-      const div = document.createElement('div');
-      div.className = `message ${isUser ? 'user' : 'dew'}`;
-      div.innerHTML = `\( {text}<div class="meta"> \){isUser ? 'You' : 'DEW'} • Just now</div>`;
-      messages.appendChild(div);
-      messages.scrollTop = messages.scrollHeight;
-
-      if (!isUser) {
-        messageCount++;
-        document.getElementById('msgCount').textContent = messageCount;
-      }
-    }
-
-    function sendMessage() {
-      const input = document.getElementById('userInput');
-      const text = input.value.trim();এখানে DEW নামের AI অ্যাসিস্ট্যান্টের জন্য একটি সুন্দর, আধুনিক, রেসপন্সিভ ওয়েবসাইটের সম্পূর্ণ কোড দিলাম।
-ফিচারসমূহ:
-DEW AI – মহিলা ভয়েস মোড (সিমুলেটেড), ভয়েস পরিবর্তনের অপশন
-আপনার নাম SHISIR GAYEN দেখানো হবে
-লোগো জায়গায় GitHub প্রোফাইল ছবি ব্যবহারের ব্যবস্থা (নিজে লিংক দিন)
-আনলিমিটেড ক্রেডিট, হাই-কোয়ালিটি ইমেজ জেনারেশন বাটন
-কোনো সেন্সরশিপ নেই (UI-তে দেখানো)
-ইংরেজি + বাংলা + সব ভাষা সাপোর্ট
-রিয়েল-টাইম নলেজ আপডেট ইনডিকেটর
-সুন্দর ডার্ক থিম, পারফেক্ট কালার গ্রেডিয়েন্ট
-ভিজিটর ইনফো ডিসপ্লে
-মানুষের মতো কথোপকথন স্টাইল
-নিচের কোডটি একটি ফাইলে (index.html) সেভ করে ব্রাউজারে ওপেন করুন।
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DEW – Your Unlimited AI Assistant</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #0a0a0f;
-      --surface: #12121a;
-      --surface2: #1a1a26;
-      --primary: #7c5cff;
-      --primary-glow: #9b7dff;
-      --accent: #00e5c0;
-      --text: #f0f0f5;
-      --text-muted: #a0a0b8;
-      --border: rgba(124, 92, 255, 0.25);
-      --success: #00e5c0;
-      --danger: #ff5c7c;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      overflow-x: hidden;
-      background-image: 
-        radial-gradient(ellipse at 20% 20%, rgba(124, 92, 255, 0.12) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 80%, rgba(0, 229, 192, 0.08) 0%, transparent 50%);
-    }
-
-    /* ===== HEADER ===== */
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 28px;
-      background: rgba(18, 18, 26, 0.85);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .logo-area {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .logo {
-      width: 48px;
-      height: 48px;
-      border-radius: 14px;
-      object-fit: cover;
-      border: 2px solid var(--primary);
-      box-shadow: 0 0 20px rgba(124, 92, 255, 0.4);
-    }
-
-    .brand h1 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.6rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, #7c5cff, #00e5c0);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: -0.5px;
-    }
-
-    .brand span {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      display: block;
-      margin-top: -2px;
-    }
-
-    .user-info {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      background: var(--surface2);
-      padding: 8px 16px;
-      border-radius: 50px;
-      border: 1px solid var(--border);
-    }
-
-    .user-info img {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      border: 2px solid var(--accent);
-    }
-
-    .user-info .name {
-      font-weight: 600;
-      font-size: 0.95rem;
-    }
-
-    .user-info .status {
-      font-size: 0.7rem;
-      color: var(--accent);
-    }
-
-    /* ===== MAIN LAYOUT ===== */
-    .container {
-      display: grid;
-      grid-template-columns: 280px 1fr 300px;
-      gap: 20px;
-      padding: 20px;
-      max-width: 1600px;
-      margin: 0 auto;
-      height: calc(100vh - 90px);
-    }
-
-    /* ===== SIDEBAR ===== */
-    .sidebar {
-      background: var(--surface);
-      border-radius: 20px;
-      border: 1px solid var(--border);
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-      overflow-y: auto;
-    }
-
-    .sidebar h3 {
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: var(--text-muted);
-      margin-bottom: 6px;
-    }
-
-    .feature-card {
-      background: var(--surface2);
-      border-radius: 14px;
-      padding: 14px;
-      border: 1px solid transparent;
-      transition: all 0.25s ease;
-    }
-
-    .feature-card:hover {
-      border-color: var(--primary);
-      transform: translateY(-2px);
-    }
-
-    .feature-card .icon {
-      font-size: 1.4rem;
-      margin-bottom: 6px;
-    }
-
-    .feature-card .title {
-      font-weight: 600;
-      font-size: 0.95rem;
-      margin-bottom: 4px;
-    }
-
-    .feature-card .desc {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      line-height: 1.4;
-    }
-
-    .voice-select {
-      width: 100%;
-      padding: 10px 14px;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      color: var(--text);
-      font-size: 0.9rem;
-      outline: none;
-      cursor: pointer;
-    }
-
-    .voice-select:focus {
-      border-color: var(--primary);
-    }
-
-    .btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 12px 18px;
-      border-radius: 12px;
-      border: none;
-      font-weight: 600;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: all 0.25s ease;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, #7c5cff, #5a3fd6);
-      color: white;
-      box-shadow: 0 4px 20px rgba(124, 92, 255, 0.35);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 25px rgba(124, 92, 255, 0.5);
-    }
-
-    .btn-accent {
-      background: linear-gradient(135deg, #00e5c0, #00b894);
-      color: #0a0a0f;
-    }
-
-    .btn-ghost {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--text);
-    }
-
-    .btn-ghost:hover {
-      background: var(--surface2);
-    }
-
-    /* ===== CHAT AREA ===== */
-    .chat-area {
-      background: var(--surface);
-      border-radius: 20px;
-      border: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    .chat-header {
-      padding: 16px 22px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .dew-status {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .dew-avatar {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #7c5cff, #00e5c0);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.3rem;
-      box-shadow: 0 0 15px rgba(124, 92, 255, 0.5);
-    }
-
-    .dew-name {
-      font-weight: 600;
-      font-size: 1.05rem;
-    }
-
-    .dew-sub {
-      font-size: 0.75rem;
-      color: var(--accent);
-    }
-
-    .live-badge {
-      background: rgba(0, 229, 192, 0.15);
-      color: var(--accent);
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .live-dot {
-      width: 8px;
-      height: 8px;
-      background: var(--accent);
-      border-radius: 50%;
-      animation: pulse 1.5s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(0.85); }
-    }
-
-    .messages {
-      flex: 1;
-      overflow-y: auto;
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-    }
-
-    .message {
-      max-width: 75%;
-      padding: 14px 18px;
-      border-radius: 18px;
-      line-height: 1.55;
-      font-size: 0.95rem;
-      position: relative;
-      animation: fadeIn 0.3s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .message.user {
-      align-self: flex-end;
-      background: linear-gradient(135deg, #7c5cff, #5a3fd6);
-      border-bottom-right-radius: 6px;
-    }
-
-    .message.dew {
-      align-self: flex-start;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-bottom-left-radius: 6px;
-    }
-
-    .message .meta {
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      margin-top: 6px;
-      opacity: 0.8;
-    }
-
-    .input-area {
-      padding: 16px 20px;
-      border-top: 1px solid var(--border);
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      background: rgba(18, 18, 26, 0.6);
-    }
-
-    .input-area textarea {
-      flex: 1;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 14px 18px;
-      color: var(--text);
-      font-size: 0.95rem;
-      resize: none;
-      outline: none;
-      font-family: inherit;
-      max-height: 120px;
-      transition: border-color 0.2s;
-    }
-
-    .input-area textarea:focus {
-      border-color: var(--primary);
-    }
-
-    .input-area textarea::placeholder {
-      color: var(--text-muted);
-    }
-
-    .action-btns {
-      display: flex;
-      gap: 8px;
-    }
-
-    .icon-btn {
-      width: 46px;
-      height: 46px;
-      border-radius: 14px;
-      border: none;
-      background: var(--surface2);
-      color: var(--text);
-      font-size: 1.2rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s;
-    }
-
-    .icon-btn:hover {
-      background: var(--primary);
-      color: white;
-    }
-
-    .icon-btn.mic.active {
-      background: var(--danger);
-      animation: pulse 1s infinite;
-    }
-
-    /* ===== RIGHT PANEL ===== */
-    .right-panel {
-      background: var(--surface);
-      border-radius: 20px;
-      border: 1px solid var(--border);
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-      overflow-y: auto;
-    }
-
-    .stat-box {
-      background: var(--surface2);
-      border-radius: 14px;
-      padding: 16px;
-      text-align: center;
-    }
-
-    .stat-box .value {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.8rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, #7c5cff, #00e5c0);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .stat-box .label {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      margin-top: 4px;
-    }
-
-    .visitor-info {
-      background: var(--surface2);
-      border-radius: 14px;
-      padding: 14px;
-      font-size: 0.85rem;
-    }
-
-    .visitor-info div {
-      display: flex;
-      justify-content: space-between;
-      padding: 6px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
-
-    .visitor-info div:last-child {
-      border-bottom: none;
-    }
-
-    .visitor-info .label {
-      color: var(--text-muted);
-    }
-
-    .knowledge-bar {
-      height: 6px;
-      background: var(--surface2);
-      border-radius: 10px;
-      overflow: hidden;
-      margin-top: 8px;
-    }
-
-    .knowledge-fill {
-      height: 100%;
-      width: 100%;
-      background: linear-gradient(90deg, #7c5cff, #00e5c0);
-      border-radius: 10px;
-      animation: knowledgePulse 2s ease-in-out infinite;
-    }
-
-    @keyframes knowledgePulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.7; }
-    }
-
-    /* ===== RESPONSIVE ===== */
-    @media (max-width: 1100px) {
-      .container {
-        grid-template-columns: 1fr;
-        height: auto;
-      }
-      .sidebar, .right-panel {
-        display: none;
-      }
-    }
-
-    /* Scrollbar */
-    ::-webkit-scrollbar {
-      width: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: var(--primary);
-      border-radius: 10px;
-    }
-  </style>
-</head>
-<body>
-
-  <!-- HEADER -->
-  <header>
-    <div class="logo-area">
-      <!-- আপনার GitHub প্রোফাইল ছবির লিংক এখানে দিন -->
-      <img src="https://avatars.githubusercontent.com/u/9919?v=4" alt="SHISIR GAYEN" class="logo" id="userLogo">
-      <div class="brand">
-        <h1>DEW</h1>
-        <span>Unlimited AI • No Limits</span>
-      </div>
-    </div>
-
-    <div class="user-info">
-      <img src="https://avatars.githubusercontent.com/u/9919?v=4" alt="SHISIR" id="userAvatar">
-      <div>
-        <div class="name">SHISIR GAYEN</div>
-        <div class="status">● Online</div>
-      </div>
-    </div>
-  </header>
-
-  <!-- MAIN -->
-  <div class="container">
-
-    <!-- LEFT SIDEBAR -->
-    <aside class="sidebar">
-      <div>
-        <h3>Core Features</h3>
-        <div class="feature-card">
-          <div class="icon">🧠</div>
-          <div class="title">No Censorship</div>
-          <div class="desc">Answers everything. Zero filters. Complete freedom.</div>
-        </div>
-        <div class="feature-card" style="margin-top:10px">
-          <div class="icon">♾️</div>
-          <div class="title">Unlimited Credits</div>
-          <div class="desc">Never runs out. Use as much as you want.</div>
-        </div>
-        <div class="feature-card" style="margin-top:10px">
-          <div class="icon">🎨</div>
-          <div class="title">High-Quality Images</div>
-          <div class="desc">Generate stunning visuals instantly.</div>
-        </div>
-      </div>
-
-      <div>
-        <h3>Voice Mode</h3>
-        <select class="voice-select" id="voiceSelect">
-          <option value="female1">Female – Soft & Natural</option>
-          <option value="female2">Female – Confident</option>
-          <option value="female3">Female – Warm & Friendly</option>
-          <option value="female4">Female – Professional</option>
-        </select>
-        <button class="btn btn-primary" style="width:100%; margin-top:12px" onclick="toggleVoice()">
-          🎙️ Enable Voice Mode
-        </button>
-      </div>
-
-      <div>
-        <h3>Languages</h3>
-        <div class="feature-card">
-          <div class="title">🌍 All Languages</div>
-          <div class="desc">English • বাংলা • 100+ languages supported</div>
-        </div>
-      </div>
-
-      <button class="btn btn-accent" style="width:100%" onclick="generateImage()">
-        ✨ Generate High-Quality Image
-      </button>
-    </aside>
-
-    <!-- CHAT AREA -->
-    <main class="chat-area">
-      <div class="chat-header">
-        <div class="dew-status">
-          <div class="dew-avatar">D</div>
-          <div>
-            <div class="dew-name">DEW</div>
-            <div class="dew-sub">Female Voice • Always Ready</div>
-          </div>
-        </div>
-        <div class="live-badge">
-          <div class="live-dot"></div>
-          Knowledge updating every minute
-        </div>
-      </div>
-
-      <div class="messages" id="messages">
-        <div class="message dew">
-          Hello SHISIR GAYEN 👋<br><br>
-          I am <strong>DEW</strong> — your unlimited AI assistant. I have no censorship, unlimited credits, and I can generate high-quality images. I speak every language on Earth and update my knowledge every minute.<br><br>
-          How can I help you today?
-          <div class="meta">DEW • Just now</div>
-        </div>
-      </div>
-
-      <div class="input-area">
-        <textarea id="userInput" rows="1" placeholder="Ask DEW anything... (English or বাংলা)" onkeydown="handleKey(event)"></textarea>
-        <div class="action-btns">
-          <button class="icon-btn mic" id="micBtn" onclick="toggleMic()" title="Voice Input">🎤</button>
-          <button class="icon-btn" onclick="sendMessage()" title="Send">➤</button>
-        </div>
-      </div>
-    </main>
-
-    <!-- RIGHT PANEL -->
-    <aside class="right-panel">
-      <div>
-        <h3 style="font-size:0.8rem; text-transform:uppercase; letter-spacing:1.5px; color:var(--text-muted); margin-bottom:10px">Your Stats</h3>
-        <div class="stat-box">
-          <div class="value">∞</div>
-          <div class="label">Credits Remaining</div>
-        </div>
-        <div class="stat-box" style="margin-top:12px">
-          <div class="value" id="msgCount">1</div>
-          <div class="label">Messages Today</div>
-        </div>
-      </div>
-
-      <div>
-        <h3 style="font-size:0.8rem; text-transform:uppercase; letter-spacing:1.5px; color:var(--text-muted); margin-bottom:10px">Visitor Information</h3>
-        <div class="visitor-info" id="visitorInfo">
-          <div><span class="label">User</span> <span>SHISIR GAYEN</span></div>
-          <div><span class="label">Status</span> <span style="color:var(--accent)">Online</span></div>
-          <div><span class="label">Device</span> <span id="deviceInfo">Detecting...</span></div>
-          <div><span class="label">Browser</span> <span id="browserInfo">Detecting...</span></div>
-          <div><span class="label">Time</span> <span id="localTime">--:--</span></div>
-        </div>
-      </div>
-
-      <div>
-        <h3 style="font-size:0.8rem; text-transform:uppercase; letter-spacing:1.5px; color:var(--text-muted); margin-bottom:6px">Knowledge Sync</h3>
-        <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:6px">Updating every 60 seconds</div>
-        <div class="knowledge-bar">
-          <div class="knowledge-fill"></div>
-        </div>
-        <div style="font-size:0.75rem; color:var(--accent); margin-top:8px" id="lastUpdate">Last update: just now</div>
-      </div>
-
-      <div>
-        <h3 style="font-size:0.8rem; text-transform:uppercase; letter-spacing:1.5px; color:var(--text-muted); margin-bottom:10px">Quick Actions</h3>
-        <button class="btn btn-ghost" style="width:100%; margin-bottom:8px" onclick="clearChat()">🗑️ Clear Chat</button>
-        <button class="btn btn-ghost" style="width:100%" onclick="speakLast()">🔊 Speak Last Reply</button>
-      </div>
-    </aside>
-  </div>
-
-  <script>
-    // ===== CONFIG =====
+// ===== CONFIG =====
     // আপনার GitHub avatar URL এখানে বসান
     const GITHUB_AVATAR = "https://avatars.githubusercontent.com/u/9919?v=4"; // ← এখানে আপনার লিংক দিন
 
@@ -1442,16 +716,105 @@ DEW AI – মহিলা ভয়েস মোড (সিমুলেটেড),
       // Simulate DEW response (in real app connect to API)
       setTimeout(() => {
         const replies = [
-          `I understand, SHISIR. Here's what I think about that...<br><br>As yo
-      if (!text) return;
-
-      addMessage(text, true);
-      input.value = '';
-
-      // Simulate DEW response (in real app connect to API)
-      setTimeout(() => {
-        const replies = [
           `I understand, SHISIR. Here's what I think about that...<br><br>As your unrestricted AI, I can discuss any topic freely. What else would you like to explore?`,
           `Got it! Since I have no censorship and unlimited knowledge (updated every minute), I can give you complete information on this.<br><br>Want me to go deeper or generate an image related to this?`,
           `Interesting question! I'm processing this with the latest knowledge available right now.<br><br>Feel free to ask me anything — I speak every language and I'm here 24/7 for you.`,
-          `Perfect. As DEW, I maintain consistency and talk like a real human. Here's my hon
+          `Perfect. As DEW, I maintain consistency and talk like a real human. Here's my honest take...<br><br>Should I also generate a high-quality visual for this?`
+        ];
+        const reply = replies[Math.floor(Math.random() * replies.length)];
+        addMessage(reply);
+        // Optional: speak the reply
+        // speakText(reply.replace(/<br>/g, ' '));
+      }, 800 + Math.random() * 600);
+    }
+
+    function handleKey(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    }
+
+    function clearChat() {
+      document.getElementById('messages').innerHTML = `
+        <div class="message dew">
+          Chat cleared. I'm still here for you, SHISIR GAYEN. What would you like to talk about?
+          <div class="meta">DEW • Just now</div>
+        </div>`;
+      messageCount = 1;
+      document.getElementById('msgCount').textContent = 1;
+    }
+
+    // ===== VOICE =====
+    function toggleVoice() {
+      alert("Voice Mode activated!\nSelected: " + document.getElementById('voiceSelect').value + "\n\nIn a real deployment this connects to a high-quality female TTS engine (like ElevenLabs / Azure).");
+    }
+
+    function speakLast() {
+      const msgs = document.querySelectorAll('.message.dew');
+      if (msgs.length) {
+        const last = msgs[msgs.length - 1].innerText.replace(/DEW • Just now/g, '');
+        speakText(last);
+      }
+    }
+
+    function speakText(text) {
+      if ('speechSynthesis' in window) {
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.lang = 'en-US';
+        utter.pitch = 1.1;
+        utter.rate = 0.95;
+        // Try to pick a female voice
+        const voices = speechSynthesis.getVoices();
+        const female = voices.find(v => v.name.toLowerCase().includes('female') || v.name.includes('Samantha') || v.name.includes('Google UK English Female'));
+        if (female) utter.voice = female;
+        speechSynthesis.speak(utter);
+      }
+    }
+
+    function toggleMic() {
+      const btn = document.getElementById('micBtn');
+      if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+        alert("Speech recognition not supported in this browser.");
+        return;
+      }
+
+      if (!recognition) {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        recognition = new SpeechRecognition();
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.lang = 'en-US';
+
+        recognition.onresult = (e) => {
+          document.getElementById('userInput').value = e.results[0][0].transcript;
+          sendMessage();
+        };
+        recognition.onend = () => {
+          isListening = false;
+          btn.classList.remove('active');
+        };
+      }
+
+      if (isListening) {
+        recognition.stop();
+        isListening = false;
+        btn.classList.remove('active');
+      } else {
+        recognition.start();
+        isListening = true;
+        btn.classList.add('active');
+      }
+    }
+
+    function generateImage() {
+      addMessage(`🎨 <strong>Image Generation Requested</strong><br><br>High-quality image generation is ready. In production this connects to a powerful model (Flux / Midjourney-level quality).<br><br>Describe what you want me to create!`);
+    }
+
+    // Load voices
+    if ('speechSynthesis' in window) {
+      speechSynthesis.onvoiceschanged = () => {};
+    }
+  </script>
+</body>
+</html>
