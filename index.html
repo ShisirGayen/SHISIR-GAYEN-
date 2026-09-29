@@ -1164,4 +1164,314 @@ function sendMessage(){
     return;
   }
 
-  a
+  addMessage(text,"user");
+
+  userInput.value = "";
+
+  setTimeout(function(){
+
+    var reply = koliReply(text);
+
+    addMessage(reply,"ai");
+
+    speak(reply);
+
+  },400);
+
+}
+
+
+sendBtn.addEventListener("click",sendMessage);
+
+
+userInput.addEventListener("keydown",function(event){
+
+  if(event.key === "Enter"){
+
+    sendMessage();
+
+  }
+
+});
+
+
+var quickButtons = document.querySelectorAll(".quick-btn");
+
+for(var k=0;k<quickButtons.length;k++){
+
+  quickButtons[k].addEventListener("click",function(){
+
+    var question = this.getAttribute("data-question");
+
+    userInput.value = question;
+
+    sendMessage();
+
+  });
+
+}
+
+
+/* =========================
+   TEXT TO SPEECH
+========================= */
+
+function speak(text){
+
+  if(!("speechSynthesis" in window)){
+    return;
+  }
+
+  try{
+
+    window.speechSynthesis.cancel();
+
+    var utterance = new SpeechSynthesisUtterance(text);
+
+    utterance.rate = 1;
+    utterance.pitch = 1;
+
+    window.speechSynthesis.speak(utterance);
+
+  }catch(err){
+
+    console.log("Speech synthesis not available:",err);
+
+  }
+
+}
+
+
+/* =========================
+   VOICE INPUT (SPEECH TO TEXT)
+========================= */
+
+var SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
+var recognition = null;
+var listening = false;
+
+if(SpeechRecognitionAPI){
+
+  recognition = new SpeechRecognitionAPI();
+  recognition.continuous = false;
+  recognition.interimResults = false;
+  recognition.lang = "en-US";
+
+  recognition.onresult = function(event){
+
+    var transcript = event.results[0][0].transcript;
+
+    userInput.value = transcript;
+
+    sendMessage();
+
+  };
+
+  recognition.onerror = function(){
+
+    listening = false;
+    voiceBtn.classList.remove("listening");
+
+  };
+
+  recognition.onend = function(){
+
+    listening = false;
+    voiceBtn.classList.remove("listening");
+
+  };
+
+}
+
+
+voiceBtn.addEventListener("click",function(){
+
+  if(!recognition){
+
+    addMessage("এই ব্রাউজারে voice input সাপোর্ট করে না। Chrome ব্যবহার করে দেখো।","ai");
+
+    return;
+
+  }
+
+  if(listening){
+
+    recognition.stop();
+    listening = false;
+    voiceBtn.classList.remove("listening");
+
+  }else{
+
+    try{
+
+      recognition.start();
+      listening = true;
+      voiceBtn.classList.add("listening");
+
+    }catch(err){
+
+      console.log("Could not start recognition:",err);
+
+    }
+
+  }
+
+});
+
+
+/* =========================
+   TASKS
+========================= */
+
+var taskInput = document.getElementById("taskInput");
+var addTaskBtn = document.getElementById("addTask");
+var taskList = document.getElementById("taskList");
+
+var tasks = [];
+
+try{
+
+  var saved = localStorage.getItem("koli_tasks");
+
+  if(saved){
+    tasks = JSON.parse(saved);
+  }
+
+}catch(err){
+
+  tasks = [];
+
+}
+
+
+function saveTasks(){
+
+  try{
+
+    localStorage.setItem("koli_tasks",JSON.stringify(tasks));
+
+  }catch(err){
+
+    console.log("Could not save tasks:",err);
+
+  }
+
+}
+
+
+function renderTasks(){
+
+  taskList.innerHTML = "";
+
+  if(tasks.length === 0){
+
+    var empty = document.createElement("div");
+    empty.className = "empty-note";
+    empty.textContent = "এখনো কোনো task নেই। উপরে একটা যোগ করো।";
+
+    taskList.appendChild(empty);
+
+    return;
+
+  }
+
+  for(var i=0;i<tasks.length;i++){
+
+    (function(index){
+
+      var task = tasks[index];
+
+      var row = document.createElement("div");
+      row.className = "task" + (task.done ? " done" : "");
+
+      var checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.checked = task.done;
+
+      checkbox.addEventListener("change",function(){
+
+        tasks[index].done = checkbox.checked;
+
+        saveTasks();
+        renderTasks();
+
+      });
+
+      var span = document.createElement("span");
+      span.textContent = task.text;
+
+      var del = document.createElement("button");
+      del.className = "delete";
+      del.textContent = "✕";
+
+      del.addEventListener("click",function(){
+
+        tasks.splice(index,1);
+
+        saveTasks();
+        renderTasks();
+
+      });
+
+      row.appendChild(checkbox);
+      row.appendChild(span);
+      row.appendChild(del);
+
+      taskList.appendChild(row);
+
+    })(i);
+
+  }
+
+}
+
+
+function addTaskFromInput(){
+
+  var text = taskInput.value.trim();
+
+  if(text === ""){
+    return;
+  }
+
+  tasks.push({ text:text, done:false });
+
+  taskInput.value = "";
+
+  saveTasks();
+  renderTasks();
+
+}
+
+
+addTaskBtn.addEventListener("click",addTaskFromInput);
+
+taskInput.addEventListener("keydown",function(event){
+
+  if(event.key === "Enter"){
+
+    addTaskFromInput();
+
+  }
+
+});
+
+
+renderTasks();
+
+
+/* =========================
+   SENSOR (DEMO)
+========================= */
+
+var sensorValue = document.getElementById("sensorValue");
+var sensorNote = document.getElementById("sensorNote");
+
+sensorValue.textContent = "N/A";
+sensorNote.textContent = "No external RF/Wi-Fi sensor connected.";
+
+
+</script>
+
+</body>
+</html>
