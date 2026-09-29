@@ -1,1790 +1,1457 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>DEW — Personal AI Assistant</title>
-
-  <link rel="stylesheet" href="style.css">
-</head>
-
-<body>
-
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-
-    <div class="brand">
-      <div class="dew-logo">D</div>
-      <div>
-        <h2>DEW</h2>
-        <span>Personal AI</span>
-      </div>
-    </div>
-
-    <nav>
-
-      <button class="nav-btn active" onclick="showPage('dashboard', this)">
-        <span>⌂</span> Dashboard
-      </button>
-
-      <button class="nav-btn" onclick="showPage('assistant', this)">
-        <span>✦</span> DEW AI
-      </button>
-
-      <button class="nav-btn" onclick="showPage('study', this)">
-        <span>📚</span> Study
-      </button>
-
-      <button class="nav-btn" onclick="showPage('tasks', this)">
-        <span>✓</span> Tasks
-      </button>
-
-      <button class="nav-btn" onclick="showPage('notes', this)">
-        <span>📝</span> Notes
-      </button>
-
-      <button class="nav-btn" onclick="showPage('creator', this)">
-        <span>🎬</span> Creator
-      </button>
-
-      <button class="nav-btn" onclick="showPage('projects', this)">
-        <span>◈</span> Projects
-      </button>
-
-    </nav>
-
-    <div class="sidebar-bottom">
-      <div class="profile-mini">
-        <div class="avatar">S</div>
-        <div>
-          <strong>Shisir Gayen</strong>
-          <small>Personal Workspace</small>
-        </div>
-      </div>
-    </div>
-
-  </aside>
-
-
-  <!-- MAIN -->
-  <main class="main">
-
-    <!-- TOPBAR -->
-    <header class="topbar">
-
-      <div>
-        <button class="mobile-menu" onclick="toggleSidebar()">☰</button>
-        <span id="pageTitle">Dashboard</span>
-      </div>
-
-      <button class="theme-btn" onclick="toggleTheme()">☾</button>
-
-    </header>
-
-
-    <!-- DASHBOARD -->
-    <section id="dashboard" class="page active">
-
-      <div class="hero">
-
-        <div>
-          <p class="eyebrow">PERSONAL WORKSPACE</p>
-
-          <h1>
-            Welcome back,<br>
-            <span>Shisir.</span>
-          </h1>
-
-          <p class="hero-text">
-            Organize your study, ideas, projects and daily work with DEW.
-          </p>
-
-          <button class="primary-btn"
-                  onclick="showPage('assistant')">
-            ✦ Talk to DEW
-          </button>
-        </div>
-
-        <div class="dew-orb">
-          <div class="orb-inner">D</div>
-        </div>
-
-      </div>
-
-
-      <div class="stats">
-
-        <div class="stat-card">
-          <span>Tasks</span>
-          <strong id="taskCount">0</strong>
-          <small>Today's tasks</small>
-        </div>
-
-        <div class="stat-card">
-          <span>Notes</span>
-          <strong id="noteCount">0</strong>
-          <small>Saved notes</small>
-        </div>
-
-        <div class="stat-card">
-          <span>Study</span>
-          <strong>65%</strong>
-          <small>Overall progress</small>
-        </div>
-
-        <div class="stat-card">
-          <span>Projects</span>
-          <strong>3</strong>
-          <small>Active projects</small>
-        </div>
-
-      </div>
-
-
-      <div class="dashboard-grid">
-
-        <div class="panel">
-
-          <div class="panel-header">
-            <h3>Today's Tasks</h3>
-            <button onclick="showPage('tasks')">View all</button>
-          </div>
-
-          <div id="dashboardTasks" class="task-preview">
-            <p class="empty">No tasks yet.</p>
-          </div>
-
-        </div>
-
-
-        <div class="panel">
-
-          <div class="panel-header">
-            <h3>Quick Actions</h3>
-          </div>
-
-          <div class="quick-grid">
-
-            <button onclick="showPage('assistant')">
-              ✦<br>
-              <span>Ask DEW</span>
-            </button>
-
-            <button onclick="showPage('tasks')">
-              ✓<br>
-              <span>New Task</span>
-            </button>
-
-            <button onclick="showPage('notes')">
-              📝<br>
-              <span>New Note</span>
-            </button>
-
-            <button onclick="showPage('study')">
-              📚<br>
-              <span>Study</span>
-            </button>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- AI ASSISTANT -->
-    <section id="assistant" class="page">
-
-      <div class="section-heading">
-        <p class="eyebrow">YOUR PERSONAL AI</p>
-        <h1>Talk to <span>DEW</span></h1>
-        <p>Ask questions, plan your work or learn something new.</p>
-      </div>
-
-      <div class="chat-box">
-
-        <div id="chatMessages" class="chat-messages">
-
-          <div class="message dew-message">
-            <div class="chat-avatar">D</div>
-
-            <div>
-              <strong>DEW</strong>
-              <p>
-                Hi Shisir! I'm DEW. What would you like to work on today?
-              </p>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="suggestions">
-
-          <button onclick="quickAsk('Make a study plan for today')">
-            Study plan
-          </button>
-
-          <button onclick="quickAsk('Give me a content idea')">
-            Content idea
-          </button>
-
-          <button onclick="quickAsk('Explain something simply')">
-            Explain something
-          </button>
-
-        </div>
-
-        <div class="chat-input">
-
-          <input
-            id="chatInput"
-            type="text"
-            placeholder="Ask DEW anything..."
-            onkeydown="if(event.key==='Enter') sendMessage()"
-          >
-
-          <button onclick="sendMessage()">➤</button>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- STUDY -->
-    <section id="study" class="page">
-
-      <div class="section-heading">
-        <p class="eyebrow">LEARNING</p>
-        <h1>Study <span>Center</span></h1>
-        <p>Track your learning progress.</p>
-      </div>
-
-      <div class="study-grid">
-
-        <div class="study-card">
-          <div class="subject-icon">EN</div>
-          <h3>English</h3>
-
-          <div class="progress">
-            <div style="width:65%"></div>
-          </div>
-
-          <span>65% complete</span>
-        </div>
-
-        <div class="study-card">
-          <div class="subject-icon">BN</div>
-          <h3>Bangla</h3>
-
-          <div class="progress">
-            <div style="width:72%"></div>
-          </div>
-
-          <span>72% complete</span>
-        </div>
-
-        <div class="study-card">
-          <div class="subject-icon">GK</div>
-          <h3>General Knowledge</h3>
-
-          <div class="progress">
-            <div style="width:40%"></div>
-          </div>
-
-          <span>40% complete</span>
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- TASKS -->
-    <section id="tasks" class="page">
-
-      <div class="section-heading">
-
-        <p class="eyebrow">PRODUCTIVITY</p>
-
-        <h1>My <span>Tasks</span></h1>
-
-        <p>Keep your daily work organized.</p>
-
-      </div>
-
-      <div class="add-box">
-
-        <input
-          id="taskInput"
-          type="text"
-          placeholder="What do you need to do?"
-        >
-
-        <button onclick="addTask()">Add Task</button>
-
-      </div>
-
-      <div id="taskList" class="task-list"></div>
-
-    </section>
-
-
-    <!-- NOTES -->
-    <section id="notes" class="page">
-
-      <div class="section-heading">
-
-        <p class="eyebrow">KNOWLEDGE</p>
-
-        <h1>Smart <span>Notes</span></h1>
-
-        <p>Save ideas, study notes and important information.</p>
-
-      </div>
-
-      <div class="note-editor">
-
-        <input
-          id="noteTitle"
-          type="text"
-          placeholder="Note title"
-        >
-
-        <textarea
-          id="noteText"
-          placeholder="Write your note..."
-        ></textarea>
-
-        <button onclick="addNote()">Save Note</button>
-
-      </div>
-
-      <div id="notesGrid" class="notes-grid"></div>
-
-    </section>
-
-
-    <!-- CREATOR -->
-    <section id="creator" class="page">
-
-      <div class="section-heading">
-
-        <p class="eyebrow">CONTENT CREATION</p>
-
-        <h1>Creator <span>Hub</span></h1>
-
-        <p>Manage your content ideas and projects.</p>
-
-      </div>
-
-      <div class="creator-grid">
-
-        <div class="creator-card">
-          <span>🎯</span>
-          <h3>Content Ideas</h3>
-          <p>Store and organize your next video ideas.</p>
-        </div>
-
-        <div class="creator-card">
-          <span>🎬</span>
-          <h3>Scripts</h3>
-          <p>Keep your video scripts in one place.</p>
-        </div>
-
-        <div class="creator-card">
-          <span>✨</span>
-          <h3>AI Prompts</h3>
-          <p>Build your personal prompt library.</p>
-        </div>
-
-        <div class="creator-card">
-          <span>📅</span>
-          <h3>Upload Planner</h3>
-          <p>Plan your upcoming content.</p>
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- PROJECTS -->
-    <section id="projects" class="page">
-
-      <div class="section-heading">
-
-        <p class="eyebrow">WORKSPACE</p>
-
-        <h1>My <span>Projects</span></h1>
-
-        <p>Manage everything you are building.</p>
-
-      </div>
-
-      <div class="project-grid">
-
-        <div class="project-card">
-          <span>01</span>
-          <h3>DEW Website</h3>
-          <p>Personal AI workspace</p>
-
-          <div class="progress">
-            <div style="width:45%"></div>
-          </div>
-
-          <small>45% complete</small>
-        </div>
-
-        <div class="project-card">
-          <span>02</span>
-          <h3>AI Learning</h3>
-          <p>Improve AI and creative skills</p>
-
-          <div class="progress">
-            <div style="width:60%"></div>
-          </div>
-
-          <small>60% complete</small>
-        </div>
-
-        <div class="project-card">
-          <span>03</span>
-          <h3>Content System</h3>
-          <p>Build a consistent creator workflow</p>
-
-          <div class="progress">
-            <div style="width:35%"></div>
-          </div>
-
-          <small>35% complete</small>
-        </div>
-
-      </div>
-
-    </section>
-
-  </main>
-
-
-  <script src="script.js"></script>
-
-</body>
-</html>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-:root {
-  --bg: #070a0f;
-  --card: #0d121a;
-  --card2: #111823;
-  --border: #1d2733;
-  --text: #f4f7fb;
-  --muted: #8994a3;
-  --accent: #8b7cff;
-  --accent2: #54e0c2;
-  --danger: #ff667d;
-}
-
-body {
-  font-family: Inter, Arial, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-}
-
-button,
-input,
-textarea {
-  font: inherit;
-}
-
-button {
-  cursor: pointer;
-}
-
-
-/* SIDEBAR */
-
-.sidebar {
-  width: 250px;
-  height: 100vh;
-  position: fixed;
-  left: 0;
-  top: 0;
-
-  background: #090d13;
-  border-right: 1px solid var(--border);
-
-  padding: 25px 16px;
-
-  display: flex;
-  flex-direction: column;
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 40px;
-}
-
-.dew-logo {
-  width: 42px;
-  height: 42px;
-
-  display: grid;
-  place-items: center;
-
-  border-radius: 13px;
-
-  background: linear-gradient(
-    135deg,
-    var(--accent),
-    var(--accent2)
-  );
-
-  color: white;
-  font-weight: 900;
-  font-size: 21px;
-}
-
-.brand h2 {
-  font-size: 21px;
-}
-
-.brand span {
-  color: var(--muted);
-  font-size: 11px;
-}
-
-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.nav-btn {
-  border: none;
-  background: transparent;
-  color: var(--muted);
-
-  padding: 12px 14px;
-
-  text-align: left;
-  border-radius: 10px;
-
-  transition: .2s;
-}
-
-.nav-btn span {
-  display: inline-block;
-  width: 27px;
-}
-
-.nav-btn:hover,
-.nav-btn.active {
-  background: var(--card2);
-  color: white;
-}
-
-.nav-btn.active {
-  border-left: 3px solid var(--accent);
-}
-
-.sidebar-bottom {
-  margin-top: auto;
-}
-
-.profile-mini {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-
-  padding: 12px;
-
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-}
-
-.avatar {
-  width: 35px;
-  height: 35px;
-
-  display: grid;
-  place-items: center;
-
-  background: var(--accent);
-  border-radius: 50%;
-
-  font-weight: bold;
-}
-
-.profile-mini strong {
-  display: block;
-  font-size: 12px;
-}
-
-.profile-mini small {
-  color: var(--muted);
-  font-size: 10px;
-}
-
-
-/* MAIN */
-
-.main {
-  margin-left: 250px;
-  min-height: 100vh;
-}
-
-.topbar {
-  height: 70px;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  padding: 0 35px;
-
-  border-bottom: 1px solid var(--border);
-
-  color: var(--muted);
-}
-
-.theme-btn,
-.mobile-menu {
-  background: var(--card);
-  border: 1px solid var(--border);
-  color: white;
-
-  width: 40px;
-  height: 40px;
-
-  border-radius: 10px;
-}
-
-.mobile-menu {
-  display: none;
-}
-
-
-/* PAGES */
-
-.page {
-  display: none;
-  padding: 40px;
-  max-width: 1400px;
-  margin: auto;
-}
-
-.page.active {
-  display: block;
-}
-
-
-/* HERO */
-
-.hero {
-  min-height: 330px;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  padding: 50px;
-
-  border: 1px solid var(--border);
-  border-radius: 25px;
-
-  background:
-    radial-gradient(
-      circle at 80% 50%,
-      rgba(139,124,255,.15),
-      transparent 35%
-    ),
-    var(--card);
-}
-
-.eyebrow {
-  color: var(--accent2);
-  font-size: 11px;
-  letter-spacing: 3px;
-  font-weight: bold;
-  margin-bottom: 12px;
-}
-
-.hero h1 {
-  font-size: clamp(38px, 6vw, 65px);
-  line-height: 1;
-}
-
-h1 span {
-  color: var(--accent);
-}
-
-.hero-text {
-  max-width: 500px;
-  color: var(--muted);
-  margin: 20px 0;
-  line-height: 1.6;
-}
-
-.primary-btn {
-  border: none;
-  padding: 13px 20px;
-
-  border-radius: 10px;
-
-  color: white;
-  font-weight: bold;
-
-  background: var(--accent);
-}
-
-.dew-orb {
-  width: 190px;
-  height: 190px;
-
-  display: grid;
-  place-items: center;
-
-  border-radius: 50%;
-
-  background: radial-gradient(
-    circle,
-    rgba(139,124,255,.4),
-    transparent 70%
-  );
-}
-
-.orb-inner {
-  width: 100px;
-  height: 100px;
-
-  display: grid;
-  place-items: center;
-
-  border-radius: 50%;
-
-  background: linear-gradient(
-    135deg,
-    var(--accent),
-    var(--accent2)
-  );
-
-  font-size: 45px;
-  font-weight: 900;
-}
-
-
-/* STATS */
-
-.stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 15px;
-
-  margin: 20px 0;
-}
-
-.stat-card,
-.panel,
-.study-card,
-.creator-card,
-.project-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-}
-
-.stat-card {
-  padding: 20px;
-}
-
-.stat-card span,
-.stat-card small {
-  display: block;
-  color: var(--muted);
-}
-
-.stat-card strong {
-  display: block;
-  font-size: 30px;
-  margin: 8px 0;
-}
-
-
-/* DASHBOARD */
-
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: 1.4fr 1fr;
-  gap: 20px;
-}
-
-.panel {
-  padding: 20px;
-}
-
-.panel-header {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 18px;
-}
-
-.panel-header button {
-  background: transparent;
-  color: var(--accent);
-  border: none;
-}
-
-.empty {
-  color: var(--muted);
-}
-
-.quick-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-}
-
-.quick-grid button {
-  padding: 18px;
-
-  background: var(--card2);
-  color: white;
-
-  border: 1px solid var(--border);
-  border-radius: 12px;
-}
-
-.quick-grid span {
-  font-size: 12px;
-  color: var(--muted);
-}
-
-
-/* SECTION */
-
-.section-heading {
-  margin-bottom: 30px;
-}
-
-.section-heading h1 {
-  font-size: 42px;
-  margin-bottom: 10px;
-}
-
-.section-heading p:not(.eyebrow) {
-  color: var(--muted);
-}
-
-
-/* CHAT */
-
-.chat-box {
-  height: 600px;
-
-  display: flex;
-  flex-direction: column;
-
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-
-  overflow: hidden;
-}
-
-.chat-messages {
-  flex: 1;
-  padding: 25px;
-  overflow-y: auto;
-}
-
-.message {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 20px;
-}
-
-.chat-avatar {
-  width: 35px;
-  height: 35px;
-
-  display: grid;
-  place-items: center;
-
-  flex-shrink: 0;
-
-  background: var(--accent);
-  border-radius: 50%;
-  font-weight: bold;
-}
-
-.message p {
-  color: #c5ccd6;
-  margin-top: 6px;
-  line-height: 1.5;
-}
-
-.user-message {
-  justify-content: flex-end;
-}
-
-.user-message .bubble {
-  background: var(--accent);
-  padding: 12px 15px;
-  border-radius: 15px;
-}
-
-.suggestions {
-  padding: 10px 20px;
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-}
-
-.suggestions button {
-  white-space: nowrap;
-
-  padding: 8px 12px;
-
-  background: var(--card2);
-  border: 1px solid var(--border);
-
-  color: var(--muted);
-  border-radius: 20px;
-}
-
-.chat-input {
-  display: flex;
-  gap: 10px;
-
-  padding: 15px;
-
-  border-top: 1px solid var(--border);
-}
-
-.chat-input input {
-  flex: 1;
-
-  background: var(--card2);
-  border: 1px solid var(--border);
-
-  color: white;
-
-  padding: 13px 15px;
-
-  border-radius: 12px;
-  outline: none;
-}
-
-.chat-input button {
-  width: 50px;
-
-  border: none;
-  border-radius: 12px;
-
-  color: white;
-  background: var(--accent);
-}
-
-
-/* STUDY */
-
-.study-grid,
-.creator-grid,
-.project-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
-}
-
-.study-card,
-.creator-card,
-.project-card {
-  padding: 25px;
-}
-
-.subject-icon {
-  width: 50px;
-  height: 50px;
-
-  display: grid;
-  place-items: center;
-
-  background: var(--card2);
-  border-radius: 12px;
-
-  margin-bottom: 18px;
-
-  font-weight: bold;
-}
-
-.study-card h3,
-.creator-card h3,
-.project-card h3 {
-  margin-bottom: 8px;
-}
-
-.study-card span,
-.creator-card p,
-.project-card p,
-.project-card small {
-  color: var(--muted);
-  font-size: 13px;
-}
-
-.progress {
-  height: 6px;
-  background: #1b2430;
-  border-radius: 20px;
-  overflow: hidden;
-  margin: 15px 0 8px;
-}
-
-.progress div {
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    var(--accent),
-    var(--accent2)
-  );
-}
-
-
-/* TASKS */
-
-.add-box {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.add-box input {
-  flex: 1;
-
-  padding: 14px;
-
-  background: var(--card);
-  border: 1px solid var(--border);
-
-  color: white;
-  border-radius: 10px;
-  outline: none;
-}
-
-.add-box button,
-.note-editor button {
-  background: var(--accent);
-  color: white;
-
-  border: none;
-  border-radius: 10px;
-
-  padding: 0 20px;
-}
-
-.task-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-
-  padding: 15px;
-
-  background: var(--card);
-  border: 1px solid var(--border);
-
-  border-radius: 12px;
-
-  margin-bottom: 10px;
-}
-
-.task-item.completed span {
-  text-decoration: line-through;
-  color: var(--muted);
-}
-
-.task-delete {
-  margin-left: auto;
-
-  background: transparent;
-  border: none;
-
-  color: var(--danger);
-}
-
-
-/* NOTES */
-
-.note-editor {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-
-  margin-bottom: 25px;
-}
-
-.note-editor input,
-.note-editor textarea {
-  width: 100%;
-
-  background: var(--card);
-  border: 1px solid var(--border);
-
-  color: white;
-
-  padding: 14px;
-
-  border-radius: 10px;
-
-  outline: none;
-}
-
-.note-editor textarea {
-  min-height: 130px;
-  resize: vertical;
-}
-
-.note-editor button {
-  height: 45px;
-}
-
-.notes-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
-}
-
-.note-card {
-  padding: 20px;
-
-  background: var(--card);
-  border: 1px solid var(--border);
-
-  border-radius: 15px;
-}
-
-.note-card p {
-  color: var(--muted);
-  margin-top: 10px;
-  line-height: 1.5;
-}
-
-
-/* CREATOR */
-
-.creator-card span {
-  font-size: 30px;
-}
-
-.creator-card h3 {
-  margin-top: 15px;
-}
-
-.creator-card p {
-  line-height: 1.5;
-}
-
-
-/* PROJECTS */
-
-.project-card > span {
-  color: var(--accent);
-  font-size: 12px;
-}
-
-
-/* LIGHT MODE */
-
-body.light {
-  --bg: #f3f5f8;
-  --card: #ffffff;
-  --card2: #eef1f5;
-  --border: #dce1e8;
-  --text: #111722;
-  --muted: #667080;
-}
-
-
-/* MOBILE */
-
-@media (max-width: 850px) {
-
-  .sidebar {
-    transform: translateX(-100%);
-    transition: .25s;
-    z-index: 100;
-  }
-
-  .sidebar.open {
-    transform: translateX(0);
-  }
-
-  .main {
-    margin-left: 0;
-  }
-
-  .mobile-menu {
-    display: inline-block;
-    margin-right: 10px;
-  }
-
-  .page {
-    padding: 20px;
-  }
-
-  .topbar {
-    padding: 0 20px;
-  }
-
-  .hero {
-    padding: 30px;
-  }
-
-  .dew-orb {
-    display: none;
-  }
-
-  .stats {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .dashboard-grid,
-  .study-grid,
-  .creator-grid,
-  .project-grid,
-  .notes-grid {
-    grid-template-columns: 1fr;
-  }
-
-}
-
-@media (max-width: 500px) {
-
-  .hero h1 {
-    font-size: 40px;
-  }
-
-  .stats {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .stat-card strong {
-    font-size: 24px;
-  }
-
-  .add-box {
-    flex-direction: column;
-  }
-
-  .add-box button {
-    height: 45px;
-  }
-
-}
-/* =========================
-   DEW PERSONAL WORKSPACE
-========================= */
-
-
-/* PAGE NAVIGATION */
-
-function showPage(pageId, button = null) {
-
-  document.querySelectorAll(".page").forEach(page => {
-    page.classList.remove("active");
-  });
-
-  const page = document.getElementById(pageId);
-
-  if (page) {
-    page.classList.add("active");
-  }
-
-  document.querySelectorAll(".nav-btn").forEach(btn => {
-    btn.classList.remove("active");
-  });
-
-  if (button) {
-    button.classList.add("active");
-  }
-
-  const titles = {
-    dashboard: "Dashboard",
-    assistant: "DEW AI",
-    study: "Study",
-    tasks: "Tasks",
-    notes: "Notes",
-    creator: "Creator Hub",
-    projects: "Projects"
-  };
-
-  document.getElementById("pageTitle").textContent =
-    titles[pageId] || "DEW";
-
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
-}
-
-
-/* MOBILE SIDEBAR */
-
-function toggleSidebar() {
-
-  document
-    .querySelector(".sidebar")
-    .classList.toggle("open");
-
-}
-
-
-/* THEME */
-
-function toggleTheme() {
-
-  document.body.classList.toggle("light");
-
-  localStorage.setItem(
-    "dewTheme",
-    document.body.classList.contains("light")
-      ? "light"
-      : "dark"
-  );
-}
-
-
-/* LOAD THEME */
-
-if (localStorage.getItem("dewTheme") === "light") {
-  document.body.classList.add("light");
-}
-
-
-/* =========================
-   TASK SYSTEM
-========================= */
-
-let tasks =
-  JSON.parse(localStorage.getItem("dewTasks")) || [];
-
-
-function saveTasks() {
-
-  localStorage.setItem(
-    "dewTasks",
-    JSON.stringify(tasks)
-  );
-
-}
-
-
-function addTask() {
-
-  const input =
-    document.getElementById("taskInput");
-
-  const text = input.value.trim();
-
-  if (!text) return;
-
-  tasks.push({
-    id: Date.now(),
-    text: text,
-    completed: false
-  });
-
-  input.value = "";
-
-  saveTasks();
-  renderTasks();
-
-}
-
-
-function toggleTask(id) {
-
-  tasks = tasks.map(task => {
-
-    if (task.id === id) {
-      task.completed = !task.completed;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DEW – Your Unlimited AI Assistant</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #12121a;
+      --surface2: #1a1a26;
+      --primary: #7c5cff;
+      --primary-glow: #9b7dff;
+      --accent: #00e5c0;
+      --text: #f0f0f5;
+      --text-muted: #a0a0b8;
+      --border: rgba(124, 92, 255, 0.25);
+      --success: #00e5c0;
+      --danger: #ff5c7c;
     }
 
-    return task;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-  });
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(ellipse at 20% 20%, rgba(124, 92, 255, 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(0, 229, 192, 0.08) 0%, transparent 50%);
+    }
 
-  saveTasks();
-  renderTasks();
+    /* ===== HEADER ===== */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 28px;
+      background: rgba(18, 18, 26, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
 
-}
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
 
+    .logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      object-fit: cover;
+      border: 2px solid var(--primary);
+      box-shadow: 0 0 20px rgba(124, 92, 255, 0.4);
+    }
 
-function deleteTask(id) {
+    .brand h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #7c5cff, #00e5c0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px;
+    }
 
-  tasks =
-    tasks.filter(task => task.id !== id);
+    .brand span {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      display: block;
+      margin-top: -2px;
+    }
 
-  saveTasks();
-  renderTasks();
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--surface2);
+      padding: 8px 16px;
+      border-radius: 50px;
+      border: 1px solid var(--border);
+    }
 
-}
+    .user-info img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+    }
 
+    .user-info .name {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
 
-function renderTasks() {
+    .user-info .status {
+      font-size: 0.7rem;
+      color: var(--accent);
+    }
 
-  const list =
-    document.getElementById("taskList");
+    /* ===== MAIN LAYOUT ===== */
+    .container {
+      display: grid;
+      grid-template-columns: 280px 1fr 300px;
+      gap: 20px;
+      padding: 20px;
+      max-width: 1600px;
+      margin: 0 auto;
+      height: calc(100vh - 90px);
+    }
 
-  const dashboard =
-    document.getElementById("dashboardTasks");
+    /* ===== SIDEBAR ===== */
+    .sidebar {
+      background: var(--surface);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      overflow-y: auto;
+    }
 
-  document.getElementById("taskCount")
-    .textContent = tasks.length;
+    .sidebar h3 {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
 
+    .feature-card {
+      background: var(--surface2);
+      border-radius: 14px;
+      padding: 14px;
+      border: 1px solid transparent;
+      transition: all 0.25s ease;
+    }
 
-  if (!tasks.length) {
+    .feature-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
 
-    list.innerHTML =
-      `<p class="empty">No tasks yet.</p>`;
+    .feature-card .icon {
+      font-size: 1.4rem;
+      margin-bottom: 6px;
+    }
 
-    dashboard.innerHTML =
-      `<p class="empty">No tasks yet. Add your first task.</p>`;
+    .feature-card .title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+    }
 
-    return;
+    .feature-card .desc {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
 
-  }
+    .voice-select {
+      width: 100%;
+      padding: 10px 14px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+      font-size: 0.9rem;
+      outline: none;
+      cursor: pointer;
+    }
 
+    .voice-select:focus {
+      border-color: var(--primary);
+    }
 
-  list.innerHTML =
-    tasks.map(task => `
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 18px;
+      border-radius: 12px;
+      border: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
 
-      <div class="task-item
-        ${task.completed ? "completed" : ""}">
+    .btn-primary {
+      background: linear-gradient(135deg, #7c5cff, #5a3fd6);
+      color: white;
+      box-shadow: 0 4px 20px rgba(124, 92, 255, 0.35);
+    }
 
-        <input
-          type="checkbox"
-          ${task.completed ? "checked" : ""}
-          onchange="toggleTask(${task.id})"
-        >
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(124, 92, 255, 0.5);
+    }
 
-        <span>${escapeHTML(task.text)}</span>
+    .btn-accent {
+      background: linear-gradient(135deg, #00e5c0, #00b894);
+      color: #0a0a0f;
+    }
 
-        <button
-          class="task-delete"
-          onclick="deleteTask(${task.id})">
-          ×
-        </button>
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
 
+    .btn-ghost:hover {
+      background: var(--surface2);
+    }
+
+    /* ===== CHAT AREA ===== */
+    .chat-area {
+      background: var(--surface);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .chat-header {
+      padding: 16px 22px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .dew-status {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .dew-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #7c5cff, #00e5c0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      box-shadow: 0 0 15px rgba(124, 92, 255, 0.5);
+    }
+
+    .dew-name {
+      font-weight: 600;
+      font-size: 1.05rem;
+    }
+
+    .dew-sub {
+      font-size: 0.75rem;
+      color: var(--accent);
+    }
+
+    .live-badge {
+      background: rgba(0, 229, 192, 0.15);
+      color: var(--accent);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.85); }
+    }
+
+    .messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .message {
+      max-width: 75%;
+      padding: 14px 18px;
+      border-radius: 18px;
+      line-height: 1.55;
+      font-size: 0.95rem;
+      position: relative;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .message.user {
+      align-self: flex-end;
+      background: linear-gradient(135deg, #7c5cff, #5a3fd6);
+      border-bottom-right-radius: 6px;
+    }
+
+    .message.dew {
+      align-self: flex-start;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-bottom-left-radius: 6px;
+    }
+
+    .message .meta {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+      opacity: 0.8;
+    }
+
+    .input-area {
+      padding: 16px 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      background: rgba(18, 18, 26, 0.6);
+    }
+
+    .input-area textarea {
+      flex: 1;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px 18px;
+      color: var(--text);
+      font-size: 0.95rem;
+      resize: none;
+      outline: none;
+      font-family: inherit;
+      max-height: 120px;
+      transition: border-color 0.2s;
+    }
+
+    .input-area textarea:focus {
+      border-color: var(--primary);
+    }
+
+    .input-area textarea::placeholder {
+      color: var(--text-muted);
+    }
+
+    .action-btns {
+      display: flex;
+      gap: 8px;
+    }
+
+    .icon-btn {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      border: none;
+      background: var(--surface2);
+      color: var(--text);
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .icon-btn:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    .icon-btn.mic.active {
+      background: var(--danger);
+      animation: pulse 1s infinite;
+    }
+
+    /* ===== RIGHT PANEL ===== */
+    .right-panel {
+      background: var(--surface);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      overflow-y: auto;
+    }
+
+    .stat-box {
+      background: var(--surface2);
+      border-radius: 14px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .stat-box .value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #7c5cff, #00e5c0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .stat-box .label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .visitor-info {
+      background: var(--surface2);
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 0.85rem;
+    }
+
+    .visitor-info div {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .visitor-info div:last-child {
+      border-bottom: none;
+    }
+
+    .visitor-info .label {
+      color: var(--text-muted);
+    }
+
+    .knowledge-bar {
+      height: 6px;
+      background: var(--surface2);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+
+    .knowledge-fill {
+      height: 100%;
+      width: 100%;
+      background: linear-gradient(90deg, #7c5cff, #00e5c0);
+      border-radius: 10px;
+      animation: knowledgePulse 2s ease-in-out infinite;
+    }
+
+    @keyframes knowledgePulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1100px) {
+      .container {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+      .sidebar, .right-panel {
+        display: none;
+      }
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary);
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo-area">
+      <!-- আপনার GitHub প্রোফাইল ছবির লিংক এখানে দিন -->
+      <img src="https://avatars.githubusercontent.com/u/9919?v=4" alt="SHISIR GAYEN" class="logo" id="userLogo">
+      <div class="brand">
+        <h1>DEW</h1>
+        <span>Unlimited AI • No Limits</span>
       </div>
-
-    `).join("");
-
-
-  dashboard.innerHTML =
-    tasks.slice(0, 5).map(task => `
-
-      <div class="task-item
-        ${task.completed ? "completed" : ""}">
-
-        <input
-          type="checkbox"
-          ${task.completed ? "checked" : ""}
-          onchange="toggleTask(${task.id})"
-        >
-
-        <span>${escapeHTML(task.text)}</span>
-
-      </div>
-
-    `).join("");
-
-}
-
-
-/* =========================
-   NOTES
-========================= */
-
-let notes =
-  JSON.parse(localStorage.getItem("dewNotes")) || [];
-
-
-function saveNotes() {
-
-  localStorage.setItem(
-    "dewNotes",
-    JSON.stringify(notes)
-  );
-
-}
-
-
-function addNote() {
-
-  const title =
-    document.getElementById("noteTitle");
-
-  const text =
-    document.getElementById("noteText");
-
-  if (!title.value.trim() ||
-      !text.value.trim()) {
-
-    alert("Please enter a title and note.");
-
-    return;
-
-  }
-
-
-  notes.unshift({
-
-    id: Date.now(),
-
-    title: title.value.trim(),
-
-    text: text.value.trim()
-
-  });
-
-
-  title.value = "";
-  text.value = "";
-
-  saveNotes();
-  renderNotes();
-
-}
-
-
-function deleteNote(id) {
-
-  notes =
-    notes.filter(note => note.id !== id);
-
-  saveNotes();
-  renderNotes();
-
-}
-
-
-function renderNotes() {
-
-  const grid =
-    document.getElementById("notesGrid");
-
-  document.getElementById("noteCount")
-    .textContent = notes.length;
-
-
-  if (!notes.length) {
-
-    grid.innerHTML =
-      `<p class="empty">No notes saved yet.</p>`;
-
-    return;
-
-  }
-
-
-  grid.innerHTML =
-    notes.map(note => `
-
-      <div class="note-card">
-
-        <h3>
-          ${escapeHTML(note.title)}
-        </h3>
-
-        <p>
-          ${escapeHTML(note.text)}
-        </p>
-
-        <br>
-
-        <button
-          class="task-delete"
-          onclick="deleteNote(${note.id})">
-          Delete
-        </button>
-
-      </div>
-
-    `).join("");
-
-}
-
-
-/* =========================
-   DEW AI DEMO
-========================= */
-
-function quickAsk(text) {
-
-  document.getElementById("chatInput")
-    .value = text;
-
-  sendMessage();
-
-}
-
-
-function sendMessage() {
-
-  const input =
-    document.getElementById("chatInput");
-
-  const message =
-    input.value.trim();
-
-  if (!message) return;
-
-
-  const chat =
-    document.getElementById("chatMessages");
-
-
-  chat.innerHTML += `
-
-    <div class="message user-message">
-
-      <div class="bubble">
-        ${escapeHTML(message)}
-      </div>
-
     </div>
 
-  `;
+    <div class="user-info">
+      <img src="https://avatars.githubusercontent.com/u/9919?v=4" alt="SHISIR" id="userAvatar">
+      <div>
+        <div class="name">SHISIR GAYEN</div>
+        <div class="status">● Online</div>
+      </div>
+    </div>
+  </header>
 
+  <!-- MAIN -->
+  <div class="container">
 
-  input.value = "";
-
-
-  setTimeout(() => {
-
-    const response =
-      generateDemoResponse(message);
-
-    chat.innerHTML += `
-
-      <div class="message dew-message">
-
-        <div class="chat-avatar">D</div>
-
-        <div>
-
-          <strong>DEW</strong>
-
-          <p>${response}</p>
-
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar">
+      <div>
+        <h3>Core Features</h3>
+        <div class="feature-card">
+          <div class="icon">🧠</div>
+          <div class="title">No Censorship</div>
+          <div class="desc">Answers everything. Zero filters. Complete freedom.</div>
         </div>
-
+        <div class="feature-card" style="margin-top:10px">
+          <div class="icon">♾️</div>
+          <div class="title">Unlimited Credits</div>
+          <div class="desc">Never runs out. Use as much as you want.</div>
+        </div>
+        <div class="feature-card" style="margin-top:10px">
+          <div class="icon">🎨</div>
+          <div class="title">High-Quality Images</div>
+          <div class="desc">Generate stunning visuals instantly.</div>
+        </div>
       </div>
 
-    `;
+      <div>
+        <h3>Voice Mode</h3>
+        <select class="voice-select" id="voiceSelect">
+          <option value="female1">Female – Soft & Natural</option>
+          <option value="female2">Female – Confident</option>
+          <option value="female3">Female – Warm & Friendly</option>
+          <option value="female4">Female – Professional</option>
+        </select>
+        <button class="btn btn-primary" style="width:100%; margin-top:12px" onclick="toggleVoice()">
+          🎙️ Enable Voice Mode
+        </button>
+      </div>
 
+      <div>
+        <h3>Languages</h3>
+        <div class="feature-card">
+          <div class="title">🌍 All Languages</div>
+          <div class="desc">English • বাংলা • 100+ languages supported</div>
+        </div>
+      </div>
 
-    chat.scrollTop =
-      chat.scrollHeight;
+      <button class="btn btn-accent" style="width:100%" onclick="generateImage()">
+        ✨ Generate High-Quality Image
+      </button>
+    </aside>
 
-  }, 500);
+    <!-- CHAT AREA -->
+    <main class="chat-area">
+      <div class="chat-header">
+        <div class="dew-status">
+          <div class="dew-avatar">D</div>
+          <div>
+            <div class="dew-name">DEW</div>
+            <div class="dew-sub">Female Voice • Always Ready</div>
+          </div>
+        </div>
+        <div class="live-badge">
+          <div class="live-dot"></div>
+          Knowledge updating every minute
+        </div>
+      </div>
 
-}
+      <div class="messages" id="messages">
+        <div class="message dew">
+          Hello SHISIR GAYEN 👋<br><br>
+          I am <strong>DEW</strong> — your unlimited AI assistant. I have no censorship, unlimited credits, and I can generate high-quality images. I speak every language on Earth and update my knowledge every minute.<br><br>
+          How can I help you today?
+          <div class="meta">DEW • Just now</div>
+        </div>
+      </div>
 
+      <div class="input-area">
+        <textarea id="userInput" rows="1" placeholder="Ask DEW anything... (English or বাংলা)" onkeydown="handleKey(event)"></textarea>
+        <div class="action-btns">
+          <button class="icon-btn mic" id="micBtn" onclick="toggleMic()" title="Voice Input">🎤</button>
+          <button class="icon-btn" onclick="sendMessage()" title="Send">➤</button>
+        </div>
+      </div>
+    </main>
 
-function generateDemoResponse(message) {
+    <!-- RIGHT PANEL -->
+    <aside class="right-panel">
+      <div>
+        <h3 style="font-size:0.8rem; text-transform:uppercase; letter-spacing:1.5px; color:var(--text-muted); margin-bottom:10px">Your Stats</h3>
+        <div class="stat-box">
+          <div class="value">∞</div>
+          <div class="label">Credits Remaining</div>
+        </div>
+        <div class="stat-box" style="margin-top:12px">
+          <div class="value" id="msgCount">1</div>
+          <div class="label">Messages Today</div>
+        </div>
+      </div>
 
-  const text =
-    message.toLowerCase();
+      <div>
+        <h3 style="font-size:0.8rem; text-transform:uppercase; letter-spacing:1.5px; color:var(--text-muted); margin-bottom:10px">Visitor Information</h3>
+        <div class="visitor-info" id="visitorInfo">
+          <div><span class="label">User</span> <span>SHISIR GAYEN</span></div>
+          <div><span class="label">Status</span> <span style="color:var(--accent)">Online</span></div>
+          <div><span class="label">Device</span> <span id="deviceInfo">Detecting...</span></div>
+          <div><span class="label">Browser</span> <span id="browserInfo">Detecting...</span></div>
+          <div><span class="label">Time</span> <span id="localTime">--:--</span></div>
+        </div>
+      </div>
 
+      <div>
+        <h3 style="font-size:0.8rem; text-transform:uppercase; letter-spacing:1.5px; color:var(--text-muted); margin-bottom:6px">Knowledge Sync</h3>
+        <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:6px">Updating every 60 seconds</div>
+        <div class="knowledge-bar">
+          <div class="knowledge-fill"></div>
+        </div>
+        <div style="font-size:0.75rem; color:var(--accent); margin-top:8px" id="lastUpdate">Last update: just now</div>
+      </div>
 
-  if (
-    text.includes("study") ||
-    text.includes("পড়") ||
-    text.includes("পড়")
-  ) {
+      <div>
+        <h3 style="font-size:0.8rem; text-transform:uppercase; letter-spacing:1.5px; color:var(--text-muted); margin-bottom:10px">Quick Actions</h3>
+        <button class="btn btn-ghost" style="width:100%; margin-bottom:8px" onclick="clearChat()">🗑️ Clear Chat</button>
+        <button class="btn btn-ghost" style="width:100%" onclick="speakLast()">🔊 Speak Last Reply</button>
+      </div>
+    </aside>
+  </div>
 
-    return `
-      আজকের জন্য ৩টি ছোট লক্ষ্য ঠিক করো:
-      <br><br>
-      1. একটি গুরুত্বপূর্ণ topic শেষ করো।<br>
-      2. 30 মিনিট revision করো।<br>
-      3. শেষে নিজেকে 10 মিনিট test করো।
-    `;
+  <script>
+    // ===== CONFIG =====
+    // আপনার GitHub avatar URL এখানে বসান
+    const GITHUB_AVATAR = "https://avatars.githubusercontent.com/u/9919?v=4"; // ← এখানে আপনার লিংক দিন
 
-  }
+    document.getElementById('userLogo').src = GITHUB_AVATAR;
+    document.getElementById('userAvatar').src = GITHUB_AVATAR;
 
+    let messageCount = 1;
+    let isListening = false;
+    let recognition = null;
 
-  if (
-    text.includes("content") ||
-    text.includes("video")
-  ) {
+    // Device & Browser detection
+    function detectEnvironment() {
+      const ua = navigator.userAgent;
+      let browser = "Unknown";
+      if (ua.includes("Chrome")) browser = "Chrome";
+      else if (ua.includes("Firefox")) browser = "Firefox";
+      else if (ua.includes("Safari")) browser = "Safari";
+      else if (ua.includes("Edge")) browser = "Edge";
 
-    return `
-      Content idea তৈরি করতে প্রথমে
-      <b>Hook → Value → Example → CTA</b>
-      এই structure ব্যবহার করো।
-      <br><br>
-      চাইলে তুমি topic দিলে আমি সেটাকে
-      complete video concept-এ সাজিয়ে দিতে পারি।
-    `;
+      let device = /Mobile|Android|iPhone/i.test(ua) ? "Mobile" : "Desktop";
+      document.getElementById('deviceInfo').textContent = device;
+      document.getElementById('browserInfo').textContent = browser;
+    }
 
-  }
+    function updateTime() {
+      const now = new Date();
+      document.getElementById('localTime').textContent = now.toLocaleTimeString();
+      document.getElementById('lastUpdate').textContent = "Last update: " + now.toLocaleTimeString();
+    }
 
+    detectEnvironment();
+    updateTime();
+    setInterval(updateTime, 1000);
+    setInterval(() => {
+      document.getElementById('lastUpdate').textContent = "Last update: " + new Date().toLocaleTimeString();
+    }, 60000);
 
-  if (
-    text.includes("hello") ||
-    text.includes("hi") ||
-    text.includes("হাই")
-  ) {
+    // ===== CHAT FUNCTIONS =====
+    function addMessage(text, isUser = false) {
+      const messages = document.getElementById('messages');
+      const div = document.createElement('div');
+      div.className = `message ${isUser ? 'user' : 'dew'}`;
+      div.innerHTML = `\( {text}<div class="meta"> \){isUser ? 'You' : 'DEW'} • Just now</div>`;
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
 
-    return `
-      Hey Shisir! 👋
-      <br><br>
-      I'm DEW. Tell me what you're working on.
-    `;
+      if (!isUser) {
+        messageCount++;
+        document.getElementById('msgCount').textContent = messageCount;
+      }
+    }
 
-  }
+    function sendMessage() {
+      const input = document.getElementById('userInput');
+      const text = input.value.trim();এখানে DEW নামের AI অ্যাসিস্ট্যান্টের জন্য একটি সুন্দর, আধুনিক, রেসপন্সিভ ওয়েবসাইটের সম্পূর্ণ কোড দিলাম।
+ফিচারসমূহ:
+DEW AI – মহিলা ভয়েস মোড (সিমুলেটেড), ভয়েস পরিবর্তনের অপশন
+আপনার নাম SHISIR GAYEN দেখানো হবে
+লোগো জায়গায় GitHub প্রোফাইল ছবি ব্যবহারের ব্যবস্থা (নিজে লিংক দিন)
+আনলিমিটেড ক্রেডিট, হাই-কোয়ালিটি ইমেজ জেনারেশন বাটন
+কোনো সেন্সরশিপ নেই (UI-তে দেখানো)
+ইংরেজি + বাংলা + সব ভাষা সাপোর্ট
+রিয়েল-টাইম নলেজ আপডেট ইনডিকেটর
+সুন্দর ডার্ক থিম, পারফেক্ট কালার গ্রেডিয়েন্ট
+ভিজিটর ইনফো ডিসপ্লে
+মানুষের মতো কথোপকথন স্টাইল
+নিচের কোডটি একটি ফাইলে (index.html) সেভ করে ব্রাউজারে ওপেন করুন।
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DEW – Your Unlimited AI Assistant</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #12121a;
+      --surface2: #1a1a26;
+      --primary: #7c5cff;
+      --primary-glow: #9b7dff;
+      --accent: #00e5c0;
+      --text: #f0f0f5;
+      --text-muted: #a0a0b8;
+      --border: rgba(124, 92, 255, 0.25);
+      --success: #00e5c0;
+      --danger: #ff5c7c;
+    }
 
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-  return `
-    আমি DEW-এর demo version হিসেবে এখন
-    তোমার message বুঝে basic suggestions দিতে পারছি।
-    <br><br>
-    আসল AI connection যুক্ত করলে আমি
-    আরও advanced উত্তর দিতে পারব।
-  `;
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(ellipse at 20% 20%, rgba(124, 92, 255, 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(0, 229, 192, 0.08) 0%, transparent 50%);
+    }
 
-}
+    /* ===== HEADER ===== */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 28px;
+      background: rgba(18, 18, 26, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
 
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
 
-/* SECURITY */
+    .logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      object-fit: cover;
+      border: 2px solid var(--primary);
+      box-shadow: 0 0 20px rgba(124, 92, 255, 0.4);
+    }
 
-function escapeHTML(text) {
+    .brand h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #7c5cff, #00e5c0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px;
+    }
 
-  const div =
-    document.createElement("div");
+    .brand span {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      display: block;
+      margin-top: -2px;
+    }
 
-  div.textContent = text;
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--surface2);
+      padding: 8px 16px;
+      border-radius: 50px;
+      border: 1px solid var(--border);
+    }
 
-  return div.innerHTML;
+    .user-info img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+    }
 
-}
+    .user-info .name {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
 
+    .user-info .status {
+      font-size: 0.7rem;
+      color: var(--accent);
+    }
 
-/* INITIAL LOAD */
+    /* ===== MAIN LAYOUT ===== */
+    .container {
+      display: grid;
+      grid-template-columns: 280px 1fr 300px;
+      gap: 20px;
+      padding: 20px;
+      max-width: 1600px;
+      margin: 0 auto;
+      height: calc(100vh - 90px);
+    }
 
-renderTasks();
-renderNotes();
+    /* ===== SIDEBAR ===== */
+    .sidebar {
+      background: var(--surface);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      overflow-y: auto;
+    }
+
+    .sidebar h3 {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .feature-card {
+      background: var(--surface2);
+      border-radius: 14px;
+      padding: 14px;
+      border: 1px solid transparent;
+      transition: all 0.25s ease;
+    }
+
+    .feature-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .feature-card .icon {
+      font-size: 1.4rem;
+      margin-bottom: 6px;
+    }
+
+    .feature-card .title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+    }
+
+    .feature-card .desc {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .voice-select {
+      width: 100%;
+      padding: 10px 14px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+      font-size: 0.9rem;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .voice-select:focus {
+      border-color: var(--primary);
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 18px;
+      border-radius: 12px;
+      border: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #7c5cff, #5a3fd6);
+      color: white;
+      box-shadow: 0 4px 20px rgba(124, 92, 255, 0.35);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(124, 92, 255, 0.5);
+    }
+
+    .btn-accent {
+      background: linear-gradient(135deg, #00e5c0, #00b894);
+      color: #0a0a0f;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .btn-ghost:hover {
+      background: var(--surface2);
+    }
+
+    /* ===== CHAT AREA ===== */
+    .chat-area {
+      background: var(--surface);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .chat-header {
+      padding: 16px 22px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .dew-status {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .dew-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #7c5cff, #00e5c0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      box-shadow: 0 0 15px rgba(124, 92, 255, 0.5);
+    }
+
+    .dew-name {
+      font-weight: 600;
+      font-size: 1.05rem;
+    }
+
+    .dew-sub {
+      font-size: 0.75rem;
+      color: var(--accent);
+    }
+
+    .live-badge {
+      background: rgba(0, 229, 192, 0.15);
+      color: var(--accent);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.85); }
+    }
+
+    .messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .message {
+      max-width: 75%;
+      padding: 14px 18px;
+      border-radius: 18px;
+      line-height: 1.55;
+      font-size: 0.95rem;
+      position: relative;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .message.user {
+      align-self: flex-end;
+      background: linear-gradient(135deg, #7c5cff, #5a3fd6);
+      border-bottom-right-radius: 6px;
+    }
+
+    .message.dew {
+      align-self: flex-start;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-bottom-left-radius: 6px;
+    }
+
+    .message .meta {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+      opacity: 0.8;
+    }
+
+    .input-area {
+      padding: 16px 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      background: rgba(18, 18, 26, 0.6);
+    }
+
+    .input-area textarea {
+      flex: 1;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px 18px;
+      color: var(--text);
+      font-size: 0.95rem;
+      resize: none;
+      outline: none;
+      font-family: inherit;
+      max-height: 120px;
+      transition: border-color 0.2s;
+    }
+
+    .input-area textarea:focus {
+      border-color: var(--primary);
+    }
+
+    .input-area textarea::placeholder {
+      color: var(--text-muted);
+    }
+
+    .action-btns {
+      display: flex;
+      gap: 8px;
+    }
+
+    .icon-btn {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      border: none;
+      background: var(--surface2);
+      color: var(--text);
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .icon-btn:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    .icon-btn.mic.active {
+      background: var(--danger);
+      animation: pulse 1s infinite;
+    }
+
+    /* ===== RIGHT PANEL ===== */
+    .right-panel {
+      background: var(--surface);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      overflow-y: auto;
+    }
+
+    .stat-box {
+      background: var(--surface2);
+      border-radius: 14px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .stat-box .value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #7c5cff, #00e5c0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .stat-box .label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .visitor-info {
+      background: var(--surface2);
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 0.85rem;
+    }
+
+    .visitor-info div {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .visitor-info div:last-child {
+      border-bottom: none;
+    }
+
+    .visitor-info .label {
+      color: var(--text-muted);
+    }
+
+    .knowledge-bar {
+      height: 6px;
+      background: var(--surface2);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+
+    .knowledge-fill {
+      height: 100%;
+      width: 100%;
+      background: linear-gradient(90deg, #7c5cff, #00e5c0);
+      border-radius: 10px;
+      animation: knowledgePulse 2s ease-in-out infinite;
+    }
+
+    @keyframes knowledgePulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1100px) {
+      .container {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+      .sidebar, .right-panel {
+        display: none;
+      }
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary);
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo-area">
+      <!-- আপনার GitHub প্রোফাইল ছবির লিংক এখানে দিন -->
+      <img src="https://avatars.githubusercontent.com/u/9919?v=4" alt="SHISIR GAYEN" class="logo" id="userLogo">
+      <div class="brand">
+        <h1>DEW</h1>
+        <span>Unlimited AI • No Limits</span>
+      </div>
+    </div>
+
+    <div class="user-info">
+      <img src="https://avatars.githubusercontent.com/u/9919?v=4" alt="SHISIR" id="userAvatar">
+      <div>
+        <div class="name">SHISIR GAYEN</div>
+        <div class="status">● Online</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <div class="container">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar">
+      <div>
+        <h3>Core Features</h3>
+        <div class="feature-card">
+          <div class="icon">🧠</div>
+          <div class="title">No Censorship</div>
+          <div class="desc">Answers everything. Zero filters. Complete freedom.</div>
+        </div>
+        <div class="feature-card" style="margin-top:10px">
+          <div class="icon">♾️</div>
+          <div class="title">Unlimited Credits</div>
+          <div class="desc">Never runs out. Use as much as you want.</div>
+        </div>
+        <div class="feature-card" style="margin-top:10px">
+          <div class="icon">🎨</div>
+          <div class="title">High-Quality Images</div>
+          <div class="desc">Generate stunning visuals instantly.</div>
+        </div>
+      </div>
+
+      <div>
+        <h3>Voice Mode</h3>
+        <select class="voice-select" id="voiceSelect">
+          <option value="female1">Female – Soft & Natural</option>
+          <option value="female2">Female – Confident</option>
+          <option value="female3">Female – Warm & Friendly</option>
+          <option value="female4">Female – Professional</option>
+        </select>
+        <button class="btn btn-primary" style="width:100%; margin-top:12px" onclick="toggleVoice()">
+          🎙️ Enable Voice Mode
+        </button>
+      </div>
+
+      <div>
+        <h3>Languages</h3>
+        <div class="feature-card">
+          <div class="title">🌍 All Languages</div>
+          <div class="desc">English • বাংলা • 100+ languages supported</div>
+        </div>
+      </div>
+
+      <button class="btn btn-accent" style="width:100%" onclick="generateImage()">
+        ✨ Generate High-Quality Image
+      </button>
+    </aside>
+
+    <!-- CHAT AREA -->
+    <main class="chat-area">
+      <div class="chat-header">
+        <div class="dew-status">
+          <div class="dew-avatar">D</div>
+          <div>
+            <div class="dew-name">DEW</div>
+            <div class="dew-sub">Female Voice • Always Ready</div>
+          </div>
+        </div>
+        <div class="live-badge">
+          <div class="live-dot"></div>
+          Knowledge updating every minute
+        </div>
+      </div>
+
+      <div class="messages" id="messages">
+        <div class="message dew">
+          Hello SHISIR GAYEN 👋<br><br>
+          I am <strong>DEW</strong> — your unlimited AI assistant. I have no censorship, unlimited credits, and I can generate high-quality images. I speak every language on Earth and update my knowledge every minute.<br><br>
+          How can I help you today?
+          <div class="meta">DEW • Just now</div>
+        </div>
+      </div>
+
+      <div class="input-area">
+        <textarea id="userInput" rows="1" placeholder="Ask DEW anything... (English or বাংলা)" onkeydown="handleKey(event)"></textarea>
+        <div class="action-btns">
+          <button class="icon-btn mic" id="micBtn" onclick="toggleMic()" title="Voice Input">🎤</button>
+          <button class="icon-btn" onclick="sendMessage()" title="Send">➤</button>
+        </div>
+      </div>
+    </main>
+
+    <!-- RIGHT PANEL -->
+    <aside class="right-panel">
+      <div>
+        <h3 style="font-size:0.8rem; text-transform:uppercase; letter-spacing:1.5px; color:var(--text-muted); margin-bottom:10px">Your Stats</h3>
+        <div class="stat-box">
+          <div class="value">∞</div>
+          <div class="label">Credits Remaining</div>
+        </div>
+        <div class="stat-box" style="margin-top:12px">
+          <div class="value" id="msgCount">1</div>
+          <div class="label">Messages Today</div>
+        </div>
+      </div>
+
+      <div>
+        <h3 style="font-size:0.8rem; text-transform:uppercase; letter-spacing:1.5px; color:var(--text-muted); margin-bottom:10px">Visitor Information</h3>
+        <div class="visitor-info" id="visitorInfo">
+          <div><span class="label">User</span> <span>SHISIR GAYEN</span></div>
+          <div><span class="label">Status</span> <span style="color:var(--accent)">Online</span></div>
+          <div><span class="label">Device</span> <span id="deviceInfo">Detecting...</span></div>
+          <div><span class="label">Browser</span> <span id="browserInfo">Detecting...</span></div>
+          <div><span class="label">Time</span> <span id="localTime">--:--</span></div>
+        </div>
+      </div>
+
+      <div>
+        <h3 style="font-size:0.8rem; text-transform:uppercase; letter-spacing:1.5px; color:var(--text-muted); margin-bottom:6px">Knowledge Sync</h3>
+        <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:6px">Updating every 60 seconds</div>
+        <div class="knowledge-bar">
+          <div class="knowledge-fill"></div>
+        </div>
+        <div style="font-size:0.75rem; color:var(--accent); margin-top:8px" id="lastUpdate">Last update: just now</div>
+      </div>
+
+      <div>
+        <h3 style="font-size:0.8rem; text-transform:uppercase; letter-spacing:1.5px; color:var(--text-muted); margin-bottom:10px">Quick Actions</h3>
+        <button class="btn btn-ghost" style="width:100%; margin-bottom:8px" onclick="clearChat()">🗑️ Clear Chat</button>
+        <button class="btn btn-ghost" style="width:100%" onclick="speakLast()">🔊 Speak Last Reply</button>
+      </div>
+    </aside>
+  </div>
+
+  <script>
+    // ===== CONFIG =====
+    // আপনার GitHub avatar URL এখানে বসান
+    const GITHUB_AVATAR = "https://avatars.githubusercontent.com/u/9919?v=4"; // ← এখানে আপনার লিংক দিন
+
+    document.getElementById('userLogo').src = GITHUB_AVATAR;
+    document.getElementById('userAvatar').src = GITHUB_AVATAR;
+
+    let messageCount = 1;
+    let isListening = false;
+    let recognition = null;
+
+    // Device & Browser detection
+    function detectEnvironment() {
+      const ua = navigator.userAgent;
+      let browser = "Unknown";
+      if (ua.includes("Chrome")) browser = "Chrome";
+      else if (ua.includes("Firefox")) browser = "Firefox";
+      else if (ua.includes("Safari")) browser = "Safari";
+      else if (ua.includes("Edge")) browser = "Edge";
+
+      let device = /Mobile|Android|iPhone/i.test(ua) ? "Mobile" : "Desktop";
+      document.getElementById('deviceInfo').textContent = device;
+      document.getElementById('browserInfo').textContent = browser;
+    }
+
+    function updateTime() {
+      const now = new Date();
+      document.getElementById('localTime').textContent = now.toLocaleTimeString();
+      document.getElementById('lastUpdate').textContent = "Last update: " + now.toLocaleTimeString();
+    }
+
+    detectEnvironment();
+    updateTime();
+    setInterval(updateTime, 1000);
+    setInterval(() => {
+      document.getElementById('lastUpdate').textContent = "Last update: " + new Date().toLocaleTimeString();
+    }, 60000);
+
+    // ===== CHAT FUNCTIONS =====
+    function addMessage(text, isUser = false) {
+      const messages = document.getElementById('messages');
+      const div = document.createElement('div');
+      div.className = `message ${isUser ? 'user' : 'dew'}`;
+      div.innerHTML = `\( {text}<div class="meta"> \){isUser ? 'You' : 'DEW'} • Just now</div>`;
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
+
+      if (!isUser) {
+        messageCount++;
+        document.getElementById('msgCount').textContent = messageCount;
+      }
+    }
+
+    function sendMessage() {
+      const input = document.getElementById('userInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      addMessage(text, true);
+      input.value = '';
+
+      // Simulate DEW response (in real app connect to API)
+      setTimeout(() => {
+        const replies = [
+          `I understand, SHISIR. Here's what I think about that...<br><br>As yo
+      if (!text) return;
+
+      addMessage(text, true);
+      input.value = '';
+
+      // Simulate DEW response (in real app connect to API)
+      setTimeout(() => {
+        const replies = [
+          `I understand, SHISIR. Here's what I think about that...<br><br>As your unrestricted AI, I can discuss any topic freely. What else would you like to explore?`,
+          `Got it! Since I have no censorship and unlimited knowledge (updated every minute), I can give you complete information on this.<br><br>Want me to go deeper or generate an image related to this?`,
+          `Interesting question! I'm processing this with the latest knowledge available right now.<br><br>Feel free to ask me anything — I speak every language and I'm here 24/7 for you.`,
+          `Perfect. As DEW, I maintain consistency and talk like a real human. Here's my hon
