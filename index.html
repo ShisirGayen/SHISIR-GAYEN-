@@ -1,749 +1,193 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#070b14">
-<meta name="description" content="KOLI — Personal AI Companion by Shisir Gayen">
-<title>KOLI — Personal AI Companion</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
+  <title>DEW — Personal AI Assistant</title>
 
-:root{
-  --bg:#050812;
-  --panel:#0b1220;
-  --panel2:#101a2c;
-  --border:rgba(255,255,255,.09);
-  --text:#f4f7ff;
-  --muted:#8d9ab2;
-  --cyan:#00e5ff;
-  --violet:#8b5cf6;
-  --green:#22c55e;
-  --red:#ef4444;
-}
-
-html{
-  scroll-behavior:smooth;
-}
-
-body{
-  font-family:Arial,Helvetica,sans-serif;
-  background:
-    radial-gradient(circle at 80% 10%,rgba(0,229,255,.10),transparent 25%),
-    radial-gradient(circle at 10% 90%,rgba(139,92,246,.10),transparent 25%),
-    var(--bg);
-  color:var(--text);
-  min-height:100vh;
-}
-
-/* HEADER */
-
-.header{
-  height:70px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 22px;
-  border-bottom:1px solid var(--border);
-  background:rgba(5,8,18,.88);
-  backdrop-filter:blur(15px);
-  position:sticky;
-  top:0;
-  z-index:100;
-}
-
-.logo{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-weight:800;
-  letter-spacing:2px;
-}
-
-.logo-orb{
-  width:36px;
-  height:36px;
-  border-radius:50%;
-  background:linear-gradient(135deg,var(--cyan),var(--violet));
-  box-shadow:0 0 25px rgba(0,229,255,.4);
-}
-
-.status{
-  display:flex;
-  align-items:center;
-  gap:7px;
-  color:var(--muted);
-  font-size:12px;
-}
-
-.status-dot{
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  background:var(--green);
-  box-shadow:0 0 10px var(--green);
-}
-
-/* LAYOUT */
-
-.app{
-  display:flex;
-  min-height:calc(100vh - 70px);
-}
-
-.sidebar{
-  width:220px;
-  padding:20px 14px;
-  border-right:1px solid var(--border);
-  background:rgba(7,11,20,.75);
-}
-
-.nav-title{
-  font-size:11px;
-  color:var(--muted);
-  text-transform:uppercase;
-  letter-spacing:1.5px;
-  margin:8px 12px 12px;
-}
-
-.nav-btn{
-  width:100%;
-  padding:12px 14px;
-  margin-bottom:6px;
-  border:0;
-  border-radius:12px;
-  background:transparent;
-  color:var(--muted);
-  text-align:left;
-  cursor:pointer;
-  transition:.2s;
-  font-size:14px;
-}
-
-.nav-btn:hover,
-.nav-btn.active{
-  background:rgba(0,229,255,.09);
-  color:var(--cyan);
-}
-
-.main{
-  flex:1;
-  padding:28px;
-  max-width:1400px;
-  margin:auto;
-  width:100%;
-}
-
-.page{
-  display:none;
-}
-
-.page.active{
-  display:block;
-}
-
-/* HERO */
-
-.hero{
-  display:grid;
-  grid-template-columns:1.4fr .8fr;
-  gap:20px;
-  margin-bottom:22px;
-}
-
-.hero-card{
-  min-height:260px;
-  border:1px solid var(--border);
-  border-radius:24px;
-  padding:30px;
-  background:
-    linear-gradient(135deg,rgba(0,229,255,.07),rgba(139,92,246,.06)),
-    var(--panel);
-  position:relative;
-  overflow:hidden;
-}
-
-.hero-card:after{
-  content:"";
-  position:absolute;
-  width:220px;
-  height:220px;
-  border-radius:50%;
-  background:rgba(0,229,255,.08);
-  filter:blur(40px);
-  right:-80px;
-  top:-80px;
-}
-
-.eyebrow{
-  color:var(--cyan);
-  font-size:12px;
-  letter-spacing:2px;
-  text-transform:uppercase;
-  margin-bottom:12px;
-}
-
-h1{
-  font-size:clamp(32px,5vw,58px);
-  line-height:1.05;
-  margin-bottom:14px;
-}
-
-.gradient{
-  background:linear-gradient(90deg,var(--cyan),#fff,var(--violet));
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
-}
-
-.hero p{
-  color:var(--muted);
-  max-width:650px;
-  line-height:1.7;
-}
-
-/* ORB */
-
-.orb-card{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  min-height:260px;
-  border:1px solid var(--border);
-  border-radius:24px;
-  background:var(--panel);
-}
-
-.koli-orb{
-  width:145px;
-  height:145px;
-  border-radius:50%;
-  background:
-    radial-gradient(circle at 35% 30%,#fff 0 4%,var(--cyan) 10%,#1464ff 38%,#5b21b6 70%,#090516 100%);
-  box-shadow:
-    0 0 30px rgba(0,229,255,.55),
-    0 0 80px rgba(139,92,246,.35);
-  animation:pulse 3s infinite ease-in-out;
-  position:relative;
-}
-
-.koli-orb:after{
-  content:"K";
-  position:absolute;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:48px;
-  font-weight:900;
-  color:white;
-  text-shadow:0 0 20px var(--cyan);
-}
-
-@keyframes pulse{
-  0%,100%{transform:scale(1)}
-  50%{transform:scale(1.07)}
-}
-
-/* CARDS */
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:16px;
-}
-
-.card{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:18px;
-  padding:20px;
-}
-
-.card h3{
-  margin-bottom:8px;
-}
-
-.card p{
-  color:var(--muted);
-  font-size:13px;
-  line-height:1.6;
-}
-
-.icon{
-  width:42px;
-  height:42px;
-  border-radius:12px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:rgba(0,229,255,.09);
-  color:var(--cyan);
-  font-size:20px;
-  margin-bottom:14px;
-}
-
-/* ASSISTANT */
-
-.chat-layout{
-  display:grid;
-  grid-template-columns:1fr 280px;
-  gap:18px;
-}
-
-.chat-box{
-  height:620px;
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:20px;
-  display:flex;
-  flex-direction:column;
-  overflow:hidden;
-}
-
-.chat-header{
-  padding:17px 20px;
-  border-bottom:1px solid var(--border);
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.chat-header small{
-  color:var(--green);
-}
-
-.messages{
-  flex:1;
-  overflow-y:auto;
-  padding:20px;
-}
-
-.message{
-  max-width:80%;
-  padding:12px 15px;
-  border-radius:15px;
-  margin-bottom:12px;
-  line-height:1.5;
-  font-size:14px;
-  white-space:pre-wrap;
-}
-
-.message.ai{
-  background:var(--panel2);
-  border:1px solid var(--border);
-}
-
-.message.user{
-  margin-left:auto;
-  background:linear-gradient(135deg,#075b6a,#372078);
-}
-
-.chat-input{
-  padding:14px;
-  border-top:1px solid var(--border);
-  display:flex;
-  gap:8px;
-}
-
-.chat-input input{
-  flex:1;
-  min-width:0;
-  background:#070d18;
-  color:white;
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:13px;
-  outline:none;
-}
-
-button{
-  font-family:inherit;
-}
-
-.send-btn,
-.voice-btn,
-.quick-btn,
-.action-btn{
-  border:0;
-  cursor:pointer;
-  border-radius:11px;
-  padding:11px 14px;
-  color:white;
-  background:linear-gradient(135deg,#007c91,#5431a3);
-}
-
-.send-btn:hover,
-.voice-btn:hover,
-.quick-btn:hover,
-.action-btn:hover{
-  opacity:.85;
-}
-
-.voice-btn.listening{
-  background:linear-gradient(135deg,var(--red),#7a1d1d);
-  animation:pulse 1s infinite ease-in-out;
-}
-
-.quick-list{
-  display:flex;
-  flex-direction:column;
-  gap:9px;
-}
-
-.quick-btn{
-  text-align:left;
-  background:var(--panel2);
-  border:1px solid var(--border);
-  color:var(--muted);
-}
-
-/* SIDE INFO */
-
-.info-card{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:18px;
-  padding:18px;
-  margin-bottom:15px;
-}
-
-.info-card h3{
-  margin-bottom:15px;
-}
-
-.info-row{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  padding:11px 0;
-  border-bottom:1px solid var(--border);
-  font-size:13px;
-}
-
-.info-row:last-child{
-  border-bottom:0;
-}
-
-.label{
-  color:var(--muted);
-}
-
-.value{
-  color:var(--cyan);
-}
-
-/* TASKS */
-
-.task-input{
-  display:flex;
-  gap:8px;
-  margin-bottom:20px;
-}
-
-.task-input input{
-  flex:1;
-  background:#070d18;
-  color:white;
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:14px;
-  outline:none;
-}
-
-.tasks{
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
-
-.task{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:14px;
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:12px;
-}
-
-.task span{
-  flex:1;
-}
-
-.task.done span{
-  color:var(--muted);
-  text-decoration:line-through;
-}
-
-.task input[type="checkbox"]{
-  width:18px;
-  height:18px;
-  accent-color:var(--cyan);
-  cursor:pointer;
-}
-
-.delete{
-  border:0;
-  background:transparent;
-  color:#ff6b6b;
-  cursor:pointer;
-  font-size:18px;
-}
-
-.empty-note{
-  color:var(--muted);
-  font-size:13px;
-  padding:14px 0;
-}
-
-/* SENSOR */
-
-.sensor-box{
-  text-align:center;
-  padding:35px;
-}
-
-.sensor-circle{
-  width:150px;
-  height:150px;
-  margin:10px auto 25px;
-  border-radius:50%;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  border:2px solid var(--cyan);
-  box-shadow:0 0 35px rgba(0,229,255,.15);
-}
-
-.sensor-circle strong{
-  font-size:27px;
-}
-
-.sensor-circle span{
-  color:var(--muted);
-  font-size:12px;
-}
-
-.warning{
-  padding:14px;
-  border-radius:12px;
-  background:rgba(245,158,11,.08);
-  border:1px solid rgba(245,158,11,.2);
-  color:#fbbf24;
-  font-size:13px;
-  line-height:1.6;
-  margin-top:20px;
-}
-
-/* ABOUT */
-
-.about{
-  max-width:800px;
-}
-
-.about p{
-  color:var(--muted);
-  line-height:1.8;
-  margin:14px 0;
-}
-
-/* FOOTER */
-
-footer{
-  margin-top:30px;
-  padding:20px;
-  text-align:center;
-  color:var(--muted);
-  font-size:12px;
-}
-
-/* MOBILE */
-
-.mobile-menu{
-  display:none;
-  border:1px solid var(--border);
-  background:var(--panel);
-  color:white;
-  padding:8px 11px;
-  border-radius:9px;
-  cursor:pointer;
-}
-
-@media(max-width:900px){
-
-  .sidebar{
-    position:fixed;
-    top:70px;
-    left:-240px;
-    bottom:0;
-    z-index:90;
-    transition:.25s;
-  }
-
-  .sidebar.open{
-    left:0;
-  }
-
-  .mobile-menu{
-    display:block;
-  }
-
-  .hero,
-  .chat-layout{
-    grid-template-columns:1fr;
-  }
-
-  .grid{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .main{
-    padding:18px;
-  }
-}
-
-@media(max-width:600px){
-
-  .header{
-    padding:0 14px;
-  }
-
-  .grid{
-    grid-template-columns:1fr;
-  }
-
-  .hero-card{
-    padding:23px;
-  }
-
-  .orb-card{
-    min-height:200px;
-  }
-
-  .koli-orb{
-    width:115px;
-    height:115px;
-  }
-
-  .chat-box{
-    height:580px;
-  }
-
-  .message{
-    max-width:90%;
-  }
-}
-</style>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<header class="header">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
 
-  <div class="logo">
-    <button class="mobile-menu" id="menuBtn">☰</button>
-    <div class="logo-orb"></div>
-    <span>KOLI</span>
-  </div>
+    <div class="brand">
+      <div class="dew-logo">D</div>
+      <div>
+        <h2>DEW</h2>
+        <span>Personal AI</span>
+      </div>
+    </div>
 
-  <div class="status">
-    <span class="status-dot"></span>
-    <span id="onlineStatus">Checking...</span>
-  </div>
+    <nav>
 
-</header>
+      <button class="nav-btn active" onclick="showPage('dashboard', this)">
+        <span>⌂</span> Dashboard
+      </button>
 
+      <button class="nav-btn" onclick="showPage('assistant', this)">
+        <span>✦</span> DEW AI
+      </button>
 
-<div class="app">
+      <button class="nav-btn" onclick="showPage('study', this)">
+        <span>📚</span> Study
+      </button>
 
-  <aside class="sidebar" id="sidebar">
+      <button class="nav-btn" onclick="showPage('tasks', this)">
+        <span>✓</span> Tasks
+      </button>
 
-    <div class="nav-title">Workspace</div>
+      <button class="nav-btn" onclick="showPage('notes', this)">
+        <span>📝</span> Notes
+      </button>
 
-    <button class="nav-btn active" data-page="home">
-      🏠 Home
-    </button>
+      <button class="nav-btn" onclick="showPage('creator', this)">
+        <span>🎬</span> Creator
+      </button>
 
-    <button class="nav-btn" data-page="assistant">
-      🤖 KOLI AI
-    </button>
+      <button class="nav-btn" onclick="showPage('projects', this)">
+        <span>◈</span> Projects
+      </button>
 
-    <button class="nav-btn" data-page="tasks">
-      ✅ Tasks
-    </button>
+    </nav>
 
-    <button class="nav-btn" data-page="sensor">
-      📡 Sensor Center
-    </button>
-
-    <button class="nav-btn" data-page="about">
-      👤 About
-    </button>
+    <div class="sidebar-bottom">
+      <div class="profile-mini">
+        <div class="avatar">S</div>
+        <div>
+          <strong>Shisir Gayen</strong>
+          <small>Personal Workspace</small>
+        </div>
+      </div>
+    </div>
 
   </aside>
 
 
+  <!-- MAIN -->
   <main class="main">
 
-    <!-- HOME -->
+    <!-- TOPBAR -->
+    <header class="topbar">
 
-    <section class="page active" id="home">
+      <div>
+        <button class="mobile-menu" onclick="toggleSidebar()">☰</button>
+        <span id="pageTitle">Dashboard</span>
+      </div>
+
+      <button class="theme-btn" onclick="toggleTheme()">☾</button>
+
+    </header>
+
+
+    <!-- DASHBOARD -->
+    <section id="dashboard" class="page active">
 
       <div class="hero">
 
-        <div class="hero-card">
-
-          <div class="eyebrow">PERSONAL DIGITAL COMPANION</div>
+        <div>
+          <p class="eyebrow">PERSONAL WORKSPACE</p>
 
           <h1>
-            Hello, <span class="gradient">Shisir.</span>
+            Welcome back,<br>
+            <span>Shisir.</span>
           </h1>
 
-          <p>
-            Meet KOLI — your personal digital workspace designed to help
-            you study, organize tasks, explore ideas and build projects.
+          <p class="hero-text">
+            Organize your study, ideas, projects and daily work with DEW.
           </p>
 
+          <button class="primary-btn"
+                  onclick="showPage('assistant')">
+            ✦ Talk to DEW
+          </button>
         </div>
 
-        <div class="orb-card">
-          <div class="koli-orb"></div>
+        <div class="dew-orb">
+          <div class="orb-inner">D</div>
         </div>
 
       </div>
 
 
-      <div class="grid">
+      <div class="stats">
 
-        <div class="card">
-          <div class="icon">🤖</div>
-          <h3>KOLI AI</h3>
-          <p>
-            Ask questions, organize your thoughts and get useful assistance.
-          </p>
+        <div class="stat-card">
+          <span>Tasks</span>
+          <strong id="taskCount">0</strong>
+          <small>Today's tasks</small>
         </div>
 
-        <div class="card">
-          <div class="icon">📚</div>
-          <h3>Study Mode</h3>
-          <p>
-            Use KOLI as a study companion for explanations and revision.
-          </p>
+        <div class="stat-card">
+          <span>Notes</span>
+          <strong id="noteCount">0</strong>
+          <small>Saved notes</small>
         </div>
 
-        <div class="card">
-          <div class="icon">⚡</div>
-          <h3>Fast Workspace</h3>
-          <p>
-            Keep your personal tasks and tools together in one place.
-          </p>
+        <div class="stat-card">
+          <span>Study</span>
+          <strong>65%</strong>
+          <small>Overall progress</small>
+        </div>
+
+        <div class="stat-card">
+          <span>Projects</span>
+          <strong>3</strong>
+          <small>Active projects</small>
+        </div>
+
+      </div>
+
+
+      <div class="dashboard-grid">
+
+        <div class="panel">
+
+          <div class="panel-header">
+            <h3>Today's Tasks</h3>
+            <button onclick="showPage('tasks')">View all</button>
+          </div>
+
+          <div id="dashboardTasks" class="task-preview">
+            <p class="empty">No tasks yet.</p>
+          </div>
+
+        </div>
+
+
+        <div class="panel">
+
+          <div class="panel-header">
+            <h3>Quick Actions</h3>
+          </div>
+
+          <div class="quick-grid">
+
+            <button onclick="showPage('assistant')">
+              ✦<br>
+              <span>Ask DEW</span>
+            </button>
+
+            <button onclick="showPage('tasks')">
+              ✓<br>
+              <span>New Task</span>
+            </button>
+
+            <button onclick="showPage('notes')">
+              📝<br>
+              <span>New Note</span>
+            </button>
+
+            <button onclick="showPage('study')">
+              📚<br>
+              <span>Study</span>
+            </button>
+
+          </div>
+
         </div>
 
       </div>
@@ -751,110 +195,108 @@ footer{
     </section>
 
 
-    <!-- ASSISTANT -->
+    <!-- AI ASSISTANT -->
+    <section id="assistant" class="page">
 
-    <section class="page" id="assistant">
+      <div class="section-heading">
+        <p class="eyebrow">YOUR PERSONAL AI</p>
+        <h1>Talk to <span>DEW</span></h1>
+        <p>Ask questions, plan your work or learn something new.</p>
+      </div>
 
-      <div class="chat-layout">
+      <div class="chat-box">
 
-        <div class="chat-box">
+        <div id="chatMessages" class="chat-messages">
 
-          <div class="chat-header">
-            <strong>KOLI Assistant</strong>
-            <small>● Online</small>
-          </div>
+          <div class="message dew-message">
+            <div class="chat-avatar">D</div>
 
-          <div class="messages" id="messages">
-
-            <div class="message ai">Hello Shisir 👋
-
-I'm KOLI.
-
-I can currently help with basic study, planning, tasks and general questions.
-
-Try asking:
-"Explain adjective"
-"Make a study plan"
-"What should I do today?"</div>
-
-          </div>
-
-          <div class="chat-input">
-
-            <input
-              id="userInput"
-              type="text"
-              placeholder="Ask KOLI anything..."
-              autocomplete="off"
-            >
-
-            <button class="voice-btn" id="voiceBtn" title="Voice input">
-              🎙️
-            </button>
-
-            <button class="send-btn" id="sendBtn">
-              Send
-            </button>
-
+            <div>
+              <strong>DEW</strong>
+              <p>
+                Hi Shisir! I'm DEW. What would you like to work on today?
+              </p>
+            </div>
           </div>
 
         </div>
 
+        <div class="suggestions">
 
-        <div>
+          <button onclick="quickAsk('Make a study plan for today')">
+            Study plan
+          </button>
 
-          <div class="info-card">
+          <button onclick="quickAsk('Give me a content idea')">
+            Content idea
+          </button>
 
-            <h3>Quick Ask</h3>
+          <button onclick="quickAsk('Explain something simply')">
+            Explain something
+          </button>
 
-            <div class="quick-list">
+        </div>
 
-              <button class="quick-btn"
-                data-question="Explain adjective in simple Bengali">
-                Explain Adjective
-              </button>
+        <div class="chat-input">
 
-              <button class="quick-btn"
-                data-question="Make a study plan for today">
-                Study Plan
-              </button>
+          <input
+            id="chatInput"
+            type="text"
+            placeholder="Ask DEW anything..."
+            onkeydown="if(event.key==='Enter') sendMessage()"
+          >
 
-              <button class="quick-btn"
-                data-question="Give me motivation to study">
-                Motivation
-              </button>
+          <button onclick="sendMessage()">➤</button>
 
-              <button class="quick-btn"
-                data-question="What tasks should I do today?">
-                Today's Tasks
-              </button>
+        </div>
 
-            </div>
+      </div>
 
+    </section>
+
+
+    <!-- STUDY -->
+    <section id="study" class="page">
+
+      <div class="section-heading">
+        <p class="eyebrow">LEARNING</p>
+        <h1>Study <span>Center</span></h1>
+        <p>Track your learning progress.</p>
+      </div>
+
+      <div class="study-grid">
+
+        <div class="study-card">
+          <div class="subject-icon">EN</div>
+          <h3>English</h3>
+
+          <div class="progress">
+            <div style="width:65%"></div>
           </div>
 
+          <span>65% complete</span>
+        </div>
 
-          <div class="info-card">
+        <div class="study-card">
+          <div class="subject-icon">BN</div>
+          <h3>Bangla</h3>
 
-            <h3>System</h3>
-
-            <div class="info-row">
-              <span class="label">Connection</span>
-              <span class="value" id="connectionInfo">Online</span>
-            </div>
-
-            <div class="info-row">
-              <span class="label">Storage</span>
-              <span class="value">Local</span>
-            </div>
-
-            <div class="info-row">
-              <span class="label">AI Mode</span>
-              <span class="value">Demo</span>
-            </div>
-
+          <div class="progress">
+            <div style="width:72%"></div>
           </div>
 
+          <span>72% complete</span>
+        </div>
+
+        <div class="study-card">
+          <div class="subject-icon">GK</div>
+          <h3>General Knowledge</h3>
+
+          <div class="progress">
+            <div style="width:40%"></div>
+          </div>
+
+          <span>40% complete</span>
         </div>
 
       </div>
@@ -863,580 +305,1107 @@ Try asking:
 
 
     <!-- TASKS -->
+    <section id="tasks" class="page">
 
-    <section class="page" id="tasks">
+      <div class="section-heading">
 
-      <div class="card">
+        <p class="eyebrow">PRODUCTIVITY</p>
 
-        <div class="eyebrow">PRODUCTIVITY</div>
+        <h1>My <span>Tasks</span></h1>
 
-        <h2>My Tasks</h2>
+        <p>Keep your daily work organized.</p>
 
-        <br>
+      </div>
 
-        <div class="task-input">
+      <div class="add-box">
 
-          <input
-            id="taskInput"
-            type="text"
-            placeholder="Add a task..."
-          >
+        <input
+          id="taskInput"
+          type="text"
+          placeholder="What do you need to do?"
+        >
 
-          <button class="action-btn" id="addTask">
-            Add
-          </button>
+        <button onclick="addTask()">Add Task</button>
 
+      </div>
+
+      <div id="taskList" class="task-list"></div>
+
+    </section>
+
+
+    <!-- NOTES -->
+    <section id="notes" class="page">
+
+      <div class="section-heading">
+
+        <p class="eyebrow">KNOWLEDGE</p>
+
+        <h1>Smart <span>Notes</span></h1>
+
+        <p>Save ideas, study notes and important information.</p>
+
+      </div>
+
+      <div class="note-editor">
+
+        <input
+          id="noteTitle"
+          type="text"
+          placeholder="Note title"
+        >
+
+        <textarea
+          id="noteText"
+          placeholder="Write your note..."
+        ></textarea>
+
+        <button onclick="addNote()">Save Note</button>
+
+      </div>
+
+      <div id="notesGrid" class="notes-grid"></div>
+
+    </section>
+
+
+    <!-- CREATOR -->
+    <section id="creator" class="page">
+
+      <div class="section-heading">
+
+        <p class="eyebrow">CONTENT CREATION</p>
+
+        <h1>Creator <span>Hub</span></h1>
+
+        <p>Manage your content ideas and projects.</p>
+
+      </div>
+
+      <div class="creator-grid">
+
+        <div class="creator-card">
+          <span>🎯</span>
+          <h3>Content Ideas</h3>
+          <p>Store and organize your next video ideas.</p>
         </div>
 
-        <div class="tasks" id="taskList"></div>
+        <div class="creator-card">
+          <span>🎬</span>
+          <h3>Scripts</h3>
+          <p>Keep your video scripts in one place.</p>
+        </div>
+
+        <div class="creator-card">
+          <span>✨</span>
+          <h3>AI Prompts</h3>
+          <p>Build your personal prompt library.</p>
+        </div>
+
+        <div class="creator-card">
+          <span>📅</span>
+          <h3>Upload Planner</h3>
+          <p>Plan your upcoming content.</p>
+        </div>
 
       </div>
 
     </section>
 
 
-    <!-- SENSOR -->
+    <!-- PROJECTS -->
+    <section id="projects" class="page">
 
-    <section class="page" id="sensor">
+      <div class="section-heading">
 
-      <div class="card sensor-box">
+        <p class="eyebrow">WORKSPACE</p>
 
-        <div class="eyebrow">KOLI SENSOR CENTER</div>
+        <h1>My <span>Projects</span></h1>
 
-        <h2>Environment Monitor</h2>
+        <p>Manage everything you are building.</p>
 
-        <div class="sensor-circle">
+      </div>
 
-          <strong id="sensorValue">--</strong>
+      <div class="project-grid">
 
-          <span>RF DATA</span>
+        <div class="project-card">
+          <span>01</span>
+          <h3>DEW Website</h3>
+          <p>Personal AI workspace</p>
 
+          <div class="progress">
+            <div style="width:45%"></div>
+          </div>
+
+          <small>45% complete</small>
         </div>
 
-        <p id="sensorNote">
-          No external RF/Wi-Fi sensor connected.
-        </p>
+        <div class="project-card">
+          <span>02</span>
+          <h3>AI Learning</h3>
+          <p>Improve AI and creative skills</p>
 
-        <div class="warning">
+          <div class="progress">
+            <div style="width:60%"></div>
+          </div>
 
-          ⚠️ A normal website cannot directly measure Wi-Fi
-          radio-frequency power or radiation levels.
+          <small>60% complete</small>
+        </div>
 
-          Real measurements require compatible external hardware
-          and an appropriate sensor interface.
+        <div class="project-card">
+          <span>03</span>
+          <h3>Content System</h3>
+          <p>Build a consistent creator workflow</p>
 
+          <div class="progress">
+            <div style="width:35%"></div>
+          </div>
+
+          <small>35% complete</small>
         </div>
 
       </div>
 
     </section>
-
-
-    <!-- ABOUT -->
-
-    <section class="page" id="about">
-
-      <div class="card about">
-
-        <div class="eyebrow">ABOUT KOLI</div>
-
-        <h2>KOLI — Personal AI Companion</h2>
-
-        <p>
-          KOLI is designed as a personal digital workspace for Shisir Gayen.
-          The goal is to combine study, productivity, projects and AI
-          assistance into one simple interface.
-        </p>
-
-        <p>
-          This version is intentionally lightweight and works without
-          external libraries or an API key.
-        </p>
-
-        <p>
-          Real AI responses can be connected later through a secure
-          backend/API.
-        </p>
-
-      </div>
-
-    </section>
-
-
-    <footer>
-      © 2026 Shisir Gayen · KOLI Personal AI Companion
-    </footer>
 
   </main>
 
-</div>
 
+  <script src="script.js"></script>
 
-<script>
+</body>
+</html>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-/* =========================
-   NAVIGATION
-========================= */
+:root {
+  --bg: #070a0f;
+  --card: #0d121a;
+  --card2: #111823;
+  --border: #1d2733;
+  --text: #f4f7fb;
+  --muted: #8994a3;
+  --accent: #8b7cff;
+  --accent2: #54e0c2;
+  --danger: #ff667d;
+}
 
-var navButtons = document.querySelectorAll(".nav-btn");
-var pages = document.querySelectorAll(".page");
-var sidebar = document.getElementById("sidebar");
-var menuBtn = document.getElementById("menuBtn");
+body {
+  font-family: Inter, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
 
-function showPage(pageName){
+button,
+input,
+textarea {
+  font: inherit;
+}
 
-  for(var i=0;i<pages.length;i++){
-    pages[i].classList.remove("active");
-  }
-
-  var selected = document.getElementById(pageName);
-
-  if(selected){
-    selected.classList.add("active");
-  }
-
-  for(var j=0;j<navButtons.length;j++){
-    navButtons[j].classList.remove("active");
-
-    if(navButtons[j].getAttribute("data-page") === pageName){
-      navButtons[j].classList.add("active");
-    }
-  }
-
-  sidebar.classList.remove("open");
-
-  window.scrollTo(0,0);
+button {
+  cursor: pointer;
 }
 
 
-for(var i=0;i<navButtons.length;i++){
+/* SIDEBAR */
 
-  navButtons[i].addEventListener("click",function(){
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
 
-    showPage(this.getAttribute("data-page"));
+  background: #090d13;
+  border-right: 1px solid var(--border);
 
+  padding: 25px 16px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+.dew-logo {
+  width: 42px;
+  height: 42px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 13px;
+
+  background: linear-gradient(
+    135deg,
+    var(--accent),
+    var(--accent2)
+  );
+
+  color: white;
+  font-weight: 900;
+  font-size: 21px;
+}
+
+.brand h2 {
+  font-size: 21px;
+}
+
+.brand span {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.nav-btn {
+  border: none;
+  background: transparent;
+  color: var(--muted);
+
+  padding: 12px 14px;
+
+  text-align: left;
+  border-radius: 10px;
+
+  transition: .2s;
+}
+
+.nav-btn span {
+  display: inline-block;
+  width: 27px;
+}
+
+.nav-btn:hover,
+.nav-btn.active {
+  background: var(--card2);
+  color: white;
+}
+
+.nav-btn.active {
+  border-left: 3px solid var(--accent);
+}
+
+.sidebar-bottom {
+  margin-top: auto;
+}
+
+.profile-mini {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 12px;
+
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.avatar {
+  width: 35px;
+  height: 35px;
+
+  display: grid;
+  place-items: center;
+
+  background: var(--accent);
+  border-radius: 50%;
+
+  font-weight: bold;
+}
+
+.profile-mini strong {
+  display: block;
+  font-size: 12px;
+}
+
+.profile-mini small {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+
+/* MAIN */
+
+.main {
+  margin-left: 250px;
+  min-height: 100vh;
+}
+
+.topbar {
+  height: 70px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 0 35px;
+
+  border-bottom: 1px solid var(--border);
+
+  color: var(--muted);
+}
+
+.theme-btn,
+.mobile-menu {
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: white;
+
+  width: 40px;
+  height: 40px;
+
+  border-radius: 10px;
+}
+
+.mobile-menu {
+  display: none;
+}
+
+
+/* PAGES */
+
+.page {
+  display: none;
+  padding: 40px;
+  max-width: 1400px;
+  margin: auto;
+}
+
+.page.active {
+  display: block;
+}
+
+
+/* HERO */
+
+.hero {
+  min-height: 330px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 50px;
+
+  border: 1px solid var(--border);
+  border-radius: 25px;
+
+  background:
+    radial-gradient(
+      circle at 80% 50%,
+      rgba(139,124,255,.15),
+      transparent 35%
+    ),
+    var(--card);
+}
+
+.eyebrow {
+  color: var(--accent2);
+  font-size: 11px;
+  letter-spacing: 3px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.hero h1 {
+  font-size: clamp(38px, 6vw, 65px);
+  line-height: 1;
+}
+
+h1 span {
+  color: var(--accent);
+}
+
+.hero-text {
+  max-width: 500px;
+  color: var(--muted);
+  margin: 20px 0;
+  line-height: 1.6;
+}
+
+.primary-btn {
+  border: none;
+  padding: 13px 20px;
+
+  border-radius: 10px;
+
+  color: white;
+  font-weight: bold;
+
+  background: var(--accent);
+}
+
+.dew-orb {
+  width: 190px;
+  height: 190px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: radial-gradient(
+    circle,
+    rgba(139,124,255,.4),
+    transparent 70%
+  );
+}
+
+.orb-inner {
+  width: 100px;
+  height: 100px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: linear-gradient(
+    135deg,
+    var(--accent),
+    var(--accent2)
+  );
+
+  font-size: 45px;
+  font-weight: 900;
+}
+
+
+/* STATS */
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+
+  margin: 20px 0;
+}
+
+.stat-card,
+.panel,
+.study-card,
+.creator-card,
+.project-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+
+.stat-card {
+  padding: 20px;
+}
+
+.stat-card span,
+.stat-card small {
+  display: block;
+  color: var(--muted);
+}
+
+.stat-card strong {
+  display: block;
+  font-size: 30px;
+  margin: 8px 0;
+}
+
+
+/* DASHBOARD */
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 20px;
+}
+
+.panel {
+  padding: 20px;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.panel-header button {
+  background: transparent;
+  color: var(--accent);
+  border: none;
+}
+
+.empty {
+  color: var(--muted);
+}
+
+.quick-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.quick-grid button {
+  padding: 18px;
+
+  background: var(--card2);
+  color: white;
+
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.quick-grid span {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+
+/* SECTION */
+
+.section-heading {
+  margin-bottom: 30px;
+}
+
+.section-heading h1 {
+  font-size: 42px;
+  margin-bottom: 10px;
+}
+
+.section-heading p:not(.eyebrow) {
+  color: var(--muted);
+}
+
+
+/* CHAT */
+
+.chat-box {
+  height: 600px;
+
+  display: flex;
+  flex-direction: column;
+
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+
+  overflow: hidden;
+}
+
+.chat-messages {
+  flex: 1;
+  padding: 25px;
+  overflow-y: auto;
+}
+
+.message {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.chat-avatar {
+  width: 35px;
+  height: 35px;
+
+  display: grid;
+  place-items: center;
+
+  flex-shrink: 0;
+
+  background: var(--accent);
+  border-radius: 50%;
+  font-weight: bold;
+}
+
+.message p {
+  color: #c5ccd6;
+  margin-top: 6px;
+  line-height: 1.5;
+}
+
+.user-message {
+  justify-content: flex-end;
+}
+
+.user-message .bubble {
+  background: var(--accent);
+  padding: 12px 15px;
+  border-radius: 15px;
+}
+
+.suggestions {
+  padding: 10px 20px;
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+}
+
+.suggestions button {
+  white-space: nowrap;
+
+  padding: 8px 12px;
+
+  background: var(--card2);
+  border: 1px solid var(--border);
+
+  color: var(--muted);
+  border-radius: 20px;
+}
+
+.chat-input {
+  display: flex;
+  gap: 10px;
+
+  padding: 15px;
+
+  border-top: 1px solid var(--border);
+}
+
+.chat-input input {
+  flex: 1;
+
+  background: var(--card2);
+  border: 1px solid var(--border);
+
+  color: white;
+
+  padding: 13px 15px;
+
+  border-radius: 12px;
+  outline: none;
+}
+
+.chat-input button {
+  width: 50px;
+
+  border: none;
+  border-radius: 12px;
+
+  color: white;
+  background: var(--accent);
+}
+
+
+/* STUDY */
+
+.study-grid,
+.creator-grid,
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.study-card,
+.creator-card,
+.project-card {
+  padding: 25px;
+}
+
+.subject-icon {
+  width: 50px;
+  height: 50px;
+
+  display: grid;
+  place-items: center;
+
+  background: var(--card2);
+  border-radius: 12px;
+
+  margin-bottom: 18px;
+
+  font-weight: bold;
+}
+
+.study-card h3,
+.creator-card h3,
+.project-card h3 {
+  margin-bottom: 8px;
+}
+
+.study-card span,
+.creator-card p,
+.project-card p,
+.project-card small {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.progress {
+  height: 6px;
+  background: #1b2430;
+  border-radius: 20px;
+  overflow: hidden;
+  margin: 15px 0 8px;
+}
+
+.progress div {
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    var(--accent),
+    var(--accent2)
+  );
+}
+
+
+/* TASKS */
+
+.add-box {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.add-box input {
+  flex: 1;
+
+  padding: 14px;
+
+  background: var(--card);
+  border: 1px solid var(--border);
+
+  color: white;
+  border-radius: 10px;
+  outline: none;
+}
+
+.add-box button,
+.note-editor button {
+  background: var(--accent);
+  color: white;
+
+  border: none;
+  border-radius: 10px;
+
+  padding: 0 20px;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 15px;
+
+  background: var(--card);
+  border: 1px solid var(--border);
+
+  border-radius: 12px;
+
+  margin-bottom: 10px;
+}
+
+.task-item.completed span {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+
+.task-delete {
+  margin-left: auto;
+
+  background: transparent;
+  border: none;
+
+  color: var(--danger);
+}
+
+
+/* NOTES */
+
+.note-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  margin-bottom: 25px;
+}
+
+.note-editor input,
+.note-editor textarea {
+  width: 100%;
+
+  background: var(--card);
+  border: 1px solid var(--border);
+
+  color: white;
+
+  padding: 14px;
+
+  border-radius: 10px;
+
+  outline: none;
+}
+
+.note-editor textarea {
+  min-height: 130px;
+  resize: vertical;
+}
+
+.note-editor button {
+  height: 45px;
+}
+
+.notes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.note-card {
+  padding: 20px;
+
+  background: var(--card);
+  border: 1px solid var(--border);
+
+  border-radius: 15px;
+}
+
+.note-card p {
+  color: var(--muted);
+  margin-top: 10px;
+  line-height: 1.5;
+}
+
+
+/* CREATOR */
+
+.creator-card span {
+  font-size: 30px;
+}
+
+.creator-card h3 {
+  margin-top: 15px;
+}
+
+.creator-card p {
+  line-height: 1.5;
+}
+
+
+/* PROJECTS */
+
+.project-card > span {
+  color: var(--accent);
+  font-size: 12px;
+}
+
+
+/* LIGHT MODE */
+
+body.light {
+  --bg: #f3f5f8;
+  --card: #ffffff;
+  --card2: #eef1f5;
+  --border: #dce1e8;
+  --text: #111722;
+  --muted: #667080;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 850px) {
+
+  .sidebar {
+    transform: translateX(-100%);
+    transition: .25s;
+    z-index: 100;
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .main {
+    margin-left: 0;
+  }
+
+  .mobile-menu {
+    display: inline-block;
+    margin-right: 10px;
+  }
+
+  .page {
+    padding: 20px;
+  }
+
+  .topbar {
+    padding: 0 20px;
+  }
+
+  .hero {
+    padding: 30px;
+  }
+
+  .dew-orb {
+    display: none;
+  }
+
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .dashboard-grid,
+  .study-grid,
+  .creator-grid,
+  .project-grid,
+  .notes-grid {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+@media (max-width: 500px) {
+
+  .hero h1 {
+    font-size: 40px;
+  }
+
+  .stats {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .stat-card strong {
+    font-size: 24px;
+  }
+
+  .add-box {
+    flex-direction: column;
+  }
+
+  .add-box button {
+    height: 45px;
+  }
+
+}
+/* =========================
+   DEW PERSONAL WORKSPACE
+========================= */
+
+
+/* PAGE NAVIGATION */
+
+function showPage(pageId, button = null) {
+
+  document.querySelectorAll(".page").forEach(page => {
+    page.classList.remove("active");
   });
 
-}
+  const page = document.getElementById(pageId);
 
-
-menuBtn.addEventListener("click",function(){
-
-  sidebar.classList.toggle("open");
-
-});
-
-
-/* =========================
-   NETWORK STATUS
-========================= */
-
-function updateNetwork(){
-
-  var online = navigator.onLine;
-
-  var status = document.getElementById("onlineStatus");
-  var connection = document.getElementById("connectionInfo");
-
-  if(online){
-
-    status.textContent = "Online";
-    connection.textContent = "Online";
-
-  }else{
-
-    status.textContent = "Offline";
-    connection.textContent = "Offline";
-
+  if (page) {
+    page.classList.add("active");
   }
 
-}
-
-
-window.addEventListener("online",updateNetwork);
-window.addEventListener("offline",updateNetwork);
-
-updateNetwork();
-
-
-/* =========================
-   KOLI CHAT
-========================= */
-
-var messages = document.getElementById("messages");
-var userInput = document.getElementById("userInput");
-var sendBtn = document.getElementById("sendBtn");
-var voiceBtn = document.getElementById("voiceBtn");
-
-
-function addMessage(text,type){
-
-  var div = document.createElement("div");
-
-  div.className = "message " + type;
-
-  div.textContent = text;
-
-  messages.appendChild(div);
-
-  messages.scrollTop = messages.scrollHeight;
-
-}
-
-
-function koliReply(question){
-
-  var q = question.toLowerCase();
-
-  if(
-    q.indexOf("adjective") !== -1 ||
-    q.indexOf("adjectives") !== -1
-  ){
-
-    return "Adjective হলো এমন word যা noun বা pronoun-এর গুণ, অবস্থা, সংখ্যা বা পরিমাণ প্রকাশ করে। যেমন: a beautiful girl — এখানে beautiful হলো adjective.";
-
-  }
-
-
-  if(
-    q.indexOf("study plan") !== -1 ||
-    q.indexOf("পড়ার") !== -1
-  ){
-
-    return "আজকের জন্য সহজ পরিকল্পনা:\n\n1. 90 মিনিট — English Grammar\n2. 15 মিনিট — Break\n3. 90 মিনিট — বাংলা\n4. 30 মিনিট — Revision\n5. রাতে — ভুলগুলো আবার দেখো।\n\nএকসাথে অনেক কিছু না করে একটি topic শেষ করে পরেরটায় যাও।";
-
-  }
-
-
-  if(
-    q.indexOf("motivation") !== -1 ||
-    q.indexOf("মোটিভেশন") !== -1
-  ){
-
-    return "Motivation-এর অপেক্ষা না করে ছোট একটা কাজ শুরু করো। শুধু 25 মিনিট মন দিয়ে পড়ার target নাও। শুরু হয়ে গেলে পরের 25 মিনিট অনেক সহজ লাগে।";
-
-  }
-
-
-  if(
-    q.indexOf("task") !== -1 ||
-    q.indexOf("today") !== -1 ||
-    q.indexOf("আজ") !== -1
-  ){
-
-    return "আজ ৩টা গুরুত্বপূর্ণ কাজ বেছে নাও:\n\n• সবচেয়ে জরুরি পড়া\n• একটি revision\n• একটি ছোট personal task\n\n৩টা শেষ হলে তারপর extra কাজ করো।";
-
-  }
-
-
-  if(
-    q.indexOf("hello") !== -1 ||
-    q.indexOf("hi") !== -1 ||
-    q.indexOf("হাই") !== -1 ||
-    q.indexOf("হ্যালো") !== -1
-  ){
-
-    return "Hello Shisir 👋 আমি KOLI। কী নিয়ে কাজ করতে চাও?";
-
-  }
-
-
-  if(
-    q.indexOf("who are you") !== -1 ||
-    q.indexOf("তুমি কে") !== -1
-  ){
-
-    return "আমি KOLI — তোমার personal digital assistant interface। এই version-এ আমি local demo mode-এ কাজ করছি।";
-
-  }
-
-
-  return "আমি তোমার প্রশ্নটি পেয়েছি। এই GitHub version-এ এখনো real AI model connected নেই। Real AI চালাতে secure backend/API connection প্রয়োজন হবে।";
-
-}
-
-
-function sendMessage(){
-
-  var text = userInput.value.trim();
-
-  if(text === ""){
-    return;
-  }
-
-  addMessage(text,"user");
-
-  userInput.value = "";
-
-  setTimeout(function(){
-
-    var reply = koliReply(text);
-
-    addMessage(reply,"ai");
-
-    speak(reply);
-
-  },400);
-
-}
-
-
-sendBtn.addEventListener("click",sendMessage);
-
-
-userInput.addEventListener("keydown",function(event){
-
-  if(event.key === "Enter"){
-
-    sendMessage();
-
-  }
-
-});
-
-
-var quickButtons = document.querySelectorAll(".quick-btn");
-
-for(var k=0;k<quickButtons.length;k++){
-
-  quickButtons[k].addEventListener("click",function(){
-
-    var question = this.getAttribute("data-question");
-
-    userInput.value = question;
-
-    sendMessage();
-
+  document.querySelectorAll(".nav-btn").forEach(btn => {
+    btn.classList.remove("active");
   });
 
+  if (button) {
+    button.classList.add("active");
+  }
+
+  const titles = {
+    dashboard: "Dashboard",
+    assistant: "DEW AI",
+    study: "Study",
+    tasks: "Tasks",
+    notes: "Notes",
+    creator: "Creator Hub",
+    projects: "Projects"
+  };
+
+  document.getElementById("pageTitle").textContent =
+    titles[pageId] || "DEW";
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+
+/* MOBILE SIDEBAR */
+
+function toggleSidebar() {
+
+  document
+    .querySelector(".sidebar")
+    .classList.toggle("open");
+
+}
+
+
+/* THEME */
+
+function toggleTheme() {
+
+  document.body.classList.toggle("light");
+
+  localStorage.setItem(
+    "dewTheme",
+    document.body.classList.contains("light")
+      ? "light"
+      : "dark"
+  );
+}
+
+
+/* LOAD THEME */
+
+if (localStorage.getItem("dewTheme") === "light") {
+  document.body.classList.add("light");
 }
 
 
 /* =========================
-   TEXT TO SPEECH
+   TASK SYSTEM
 ========================= */
 
-function speak(text){
+let tasks =
+  JSON.parse(localStorage.getItem("dewTasks")) || [];
 
-  if(!("speechSynthesis" in window)){
-    return;
-  }
 
-  try{
+function saveTasks() {
 
-    window.speechSynthesis.cancel();
-
-    var utterance = new SpeechSynthesisUtterance(text);
-
-    utterance.rate = 1;
-    utterance.pitch = 1;
-
-    window.speechSynthesis.speak(utterance);
-
-  }catch(err){
-
-    console.log("Speech synthesis not available:",err);
-
-  }
+  localStorage.setItem(
+    "dewTasks",
+    JSON.stringify(tasks)
+  );
 
 }
 
 
-/* =========================
-   VOICE INPUT (SPEECH TO TEXT)
-========================= */
+function addTask() {
 
-var SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
-var recognition = null;
-var listening = false;
+  const input =
+    document.getElementById("taskInput");
 
-if(SpeechRecognitionAPI){
+  const text = input.value.trim();
 
-  recognition = new SpeechRecognitionAPI();
-  recognition.continuous = false;
-  recognition.interimResults = false;
-  recognition.lang = "en-US";
+  if (!text) return;
 
-  recognition.onresult = function(event){
+  tasks.push({
+    id: Date.now(),
+    text: text,
+    completed: false
+  });
 
-    var transcript = event.results[0][0].transcript;
-
-    userInput.value = transcript;
-
-    sendMessage();
-
-  };
-
-  recognition.onerror = function(){
-
-    listening = false;
-    voiceBtn.classList.remove("listening");
-
-  };
-
-  recognition.onend = function(){
-
-    listening = false;
-    voiceBtn.classList.remove("listening");
-
-  };
-
-}
-
-
-voiceBtn.addEventListener("click",function(){
-
-  if(!recognition){
-
-    addMessage("এই ব্রাউজারে voice input সাপোর্ট করে না। Chrome ব্যবহার করে দেখো।","ai");
-
-    return;
-
-  }
-
-  if(listening){
-
-    recognition.stop();
-    listening = false;
-    voiceBtn.classList.remove("listening");
-
-  }else{
-
-    try{
-
-      recognition.start();
-      listening = true;
-      voiceBtn.classList.add("listening");
-
-    }catch(err){
-
-      console.log("Could not start recognition:",err);
-
-    }
-
-  }
-
-});
-
-
-/* =========================
-   TASKS
-========================= */
-
-var taskInput = document.getElementById("taskInput");
-var addTaskBtn = document.getElementById("addTask");
-var taskList = document.getElementById("taskList");
-
-var tasks = [];
-
-try{
-
-  var saved = localStorage.getItem("koli_tasks");
-
-  if(saved){
-    tasks = JSON.parse(saved);
-  }
-
-}catch(err){
-
-  tasks = [];
-
-}
-
-
-function saveTasks(){
-
-  try{
-
-    localStorage.setItem("koli_tasks",JSON.stringify(tasks));
-
-  }catch(err){
-
-    console.log("Could not save tasks:",err);
-
-  }
-
-}
-
-
-function renderTasks(){
-
-  taskList.innerHTML = "";
-
-  if(tasks.length === 0){
-
-    var empty = document.createElement("div");
-    empty.className = "empty-note";
-    empty.textContent = "এখনো কোনো task নেই। উপরে একটা যোগ করো।";
-
-    taskList.appendChild(empty);
-
-    return;
-
-  }
-
-  for(var i=0;i<tasks.length;i++){
-
-    (function(index){
-
-      var task = tasks[index];
-
-      var row = document.createElement("div");
-      row.className = "task" + (task.done ? " done" : "");
-
-      var checkbox = document.createElement("input");
-      checkbox.type = "checkbox";
-      checkbox.checked = task.done;
-
-      checkbox.addEventListener("change",function(){
-
-        tasks[index].done = checkbox.checked;
-
-        saveTasks();
-        renderTasks();
-
-      });
-
-      var span = document.createElement("span");
-      span.textContent = task.text;
-
-      var del = document.createElement("button");
-      del.className = "delete";
-      del.textContent = "✕";
-
-      del.addEventListener("click",function(){
-
-        tasks.splice(index,1);
-
-        saveTasks();
-        renderTasks();
-
-      });
-
-      row.appendChild(checkbox);
-      row.appendChild(span);
-      row.appendChild(del);
-
-      taskList.appendChild(row);
-
-    })(i);
-
-  }
-
-}
-
-
-function addTaskFromInput(){
-
-  var text = taskInput.value.trim();
-
-  if(text === ""){
-    return;
-  }
-
-  tasks.push({ text:text, done:false });
-
-  taskInput.value = "";
+  input.value = "";
 
   saveTasks();
   renderTasks();
@@ -1444,34 +1413,378 @@ function addTaskFromInput(){
 }
 
 
-addTaskBtn.addEventListener("click",addTaskFromInput);
+function toggleTask(id) {
 
-taskInput.addEventListener("keydown",function(event){
+  tasks = tasks.map(task => {
 
-  if(event.key === "Enter"){
+    if (task.id === id) {
+      task.completed = !task.completed;
+    }
 
-    addTaskFromInput();
+    return task;
+
+  });
+
+  saveTasks();
+  renderTasks();
+
+}
+
+
+function deleteTask(id) {
+
+  tasks =
+    tasks.filter(task => task.id !== id);
+
+  saveTasks();
+  renderTasks();
+
+}
+
+
+function renderTasks() {
+
+  const list =
+    document.getElementById("taskList");
+
+  const dashboard =
+    document.getElementById("dashboardTasks");
+
+  document.getElementById("taskCount")
+    .textContent = tasks.length;
+
+
+  if (!tasks.length) {
+
+    list.innerHTML =
+      `<p class="empty">No tasks yet.</p>`;
+
+    dashboard.innerHTML =
+      `<p class="empty">No tasks yet. Add your first task.</p>`;
+
+    return;
 
   }
 
-});
+
+  list.innerHTML =
+    tasks.map(task => `
+
+      <div class="task-item
+        ${task.completed ? "completed" : ""}">
+
+        <input
+          type="checkbox"
+          ${task.completed ? "checked" : ""}
+          onchange="toggleTask(${task.id})"
+        >
+
+        <span>${escapeHTML(task.text)}</span>
+
+        <button
+          class="task-delete"
+          onclick="deleteTask(${task.id})">
+          ×
+        </button>
+
+      </div>
+
+    `).join("");
 
 
-renderTasks();
+  dashboard.innerHTML =
+    tasks.slice(0, 5).map(task => `
+
+      <div class="task-item
+        ${task.completed ? "completed" : ""}">
+
+        <input
+          type="checkbox"
+          ${task.completed ? "checked" : ""}
+          onchange="toggleTask(${task.id})"
+        >
+
+        <span>${escapeHTML(task.text)}</span>
+
+      </div>
+
+    `).join("");
+
+}
 
 
 /* =========================
-   SENSOR (DEMO)
+   NOTES
 ========================= */
 
-var sensorValue = document.getElementById("sensorValue");
-var sensorNote = document.getElementById("sensorNote");
-
-sensorValue.textContent = "N/A";
-sensorNote.textContent = "No external RF/Wi-Fi sensor connected.";
+let notes =
+  JSON.parse(localStorage.getItem("dewNotes")) || [];
 
 
-</script>
+function saveNotes() {
 
-</body>
-</html>
+  localStorage.setItem(
+    "dewNotes",
+    JSON.stringify(notes)
+  );
+
+}
+
+
+function addNote() {
+
+  const title =
+    document.getElementById("noteTitle");
+
+  const text =
+    document.getElementById("noteText");
+
+  if (!title.value.trim() ||
+      !text.value.trim()) {
+
+    alert("Please enter a title and note.");
+
+    return;
+
+  }
+
+
+  notes.unshift({
+
+    id: Date.now(),
+
+    title: title.value.trim(),
+
+    text: text.value.trim()
+
+  });
+
+
+  title.value = "";
+  text.value = "";
+
+  saveNotes();
+  renderNotes();
+
+}
+
+
+function deleteNote(id) {
+
+  notes =
+    notes.filter(note => note.id !== id);
+
+  saveNotes();
+  renderNotes();
+
+}
+
+
+function renderNotes() {
+
+  const grid =
+    document.getElementById("notesGrid");
+
+  document.getElementById("noteCount")
+    .textContent = notes.length;
+
+
+  if (!notes.length) {
+
+    grid.innerHTML =
+      `<p class="empty">No notes saved yet.</p>`;
+
+    return;
+
+  }
+
+
+  grid.innerHTML =
+    notes.map(note => `
+
+      <div class="note-card">
+
+        <h3>
+          ${escapeHTML(note.title)}
+        </h3>
+
+        <p>
+          ${escapeHTML(note.text)}
+        </p>
+
+        <br>
+
+        <button
+          class="task-delete"
+          onclick="deleteNote(${note.id})">
+          Delete
+        </button>
+
+      </div>
+
+    `).join("");
+
+}
+
+
+/* =========================
+   DEW AI DEMO
+========================= */
+
+function quickAsk(text) {
+
+  document.getElementById("chatInput")
+    .value = text;
+
+  sendMessage();
+
+}
+
+
+function sendMessage() {
+
+  const input =
+    document.getElementById("chatInput");
+
+  const message =
+    input.value.trim();
+
+  if (!message) return;
+
+
+  const chat =
+    document.getElementById("chatMessages");
+
+
+  chat.innerHTML += `
+
+    <div class="message user-message">
+
+      <div class="bubble">
+        ${escapeHTML(message)}
+      </div>
+
+    </div>
+
+  `;
+
+
+  input.value = "";
+
+
+  setTimeout(() => {
+
+    const response =
+      generateDemoResponse(message);
+
+    chat.innerHTML += `
+
+      <div class="message dew-message">
+
+        <div class="chat-avatar">D</div>
+
+        <div>
+
+          <strong>DEW</strong>
+
+          <p>${response}</p>
+
+        </div>
+
+      </div>
+
+    `;
+
+
+    chat.scrollTop =
+      chat.scrollHeight;
+
+  }, 500);
+
+}
+
+
+function generateDemoResponse(message) {
+
+  const text =
+    message.toLowerCase();
+
+
+  if (
+    text.includes("study") ||
+    text.includes("পড়") ||
+    text.includes("পড়")
+  ) {
+
+    return `
+      আজকের জন্য ৩টি ছোট লক্ষ্য ঠিক করো:
+      <br><br>
+      1. একটি গুরুত্বপূর্ণ topic শেষ করো।<br>
+      2. 30 মিনিট revision করো।<br>
+      3. শেষে নিজেকে 10 মিনিট test করো।
+    `;
+
+  }
+
+
+  if (
+    text.includes("content") ||
+    text.includes("video")
+  ) {
+
+    return `
+      Content idea তৈরি করতে প্রথমে
+      <b>Hook → Value → Example → CTA</b>
+      এই structure ব্যবহার করো।
+      <br><br>
+      চাইলে তুমি topic দিলে আমি সেটাকে
+      complete video concept-এ সাজিয়ে দিতে পারি।
+    `;
+
+  }
+
+
+  if (
+    text.includes("hello") ||
+    text.includes("hi") ||
+    text.includes("হাই")
+  ) {
+
+    return `
+      Hey Shisir! 👋
+      <br><br>
+      I'm DEW. Tell me what you're working on.
+    `;
+
+  }
+
+
+  return `
+    আমি DEW-এর demo version হিসেবে এখন
+    তোমার message বুঝে basic suggestions দিতে পারছি।
+    <br><br>
+    আসল AI connection যুক্ত করলে আমি
+    আরও advanced উত্তর দিতে পারব।
+  `;
+
+}
+
+
+/* SECURITY */
+
+function escapeHTML(text) {
+
+  const div =
+    document.createElement("div");
+
+  div.textContent = text;
+
+  return div.innerHTML;
+
+}
+
+
+/* INITIAL LOAD */
+
+renderTasks();
+renderNotes();
