@@ -385,6 +385,11 @@ button{
   opacity:.85;
 }
 
+.voice-btn.listening{
+  background:linear-gradient(135deg,var(--red),#7a1d1d);
+  animation:pulse 1s infinite ease-in-out;
+}
+
 .quick-list{
   display:flex;
   flex-direction:column;
@@ -471,12 +476,30 @@ button{
   flex:1;
 }
 
+.task.done span{
+  color:var(--muted);
+  text-decoration:line-through;
+}
+
+.task input[type="checkbox"]{
+  width:18px;
+  height:18px;
+  accent-color:var(--cyan);
+  cursor:pointer;
+}
+
 .delete{
   border:0;
   background:transparent;
   color:#ff6b6b;
   cursor:pointer;
   font-size:18px;
+}
+
+.empty-note{
+  color:var(--muted);
+  font-size:13px;
+  padding:14px 0;
 }
 
 /* SENSOR */
@@ -616,10 +639,6 @@ footer{
   .message{
     max-width:90%;
   }
-
-  .voice-btn{
-    display:none;
-  }
 }
 </style>
 </head>
@@ -747,18 +766,16 @@ footer{
 
           <div class="messages" id="messages">
 
-            <div class="message ai">
-              Hello Shisir 👋
+            <div class="message ai">Hello Shisir 👋
 
-              I'm KOLI.
+I'm KOLI.
 
-              I can currently help with basic study, planning, tasks and general questions.
+I can currently help with basic study, planning, tasks and general questions.
 
-              Try asking:
-              "Explain adjective"
-              "Make a study plan"
-              "What should I do today?"
-            </div>
+Try asking:
+"Explain adjective"
+"Make a study plan"
+"What should I do today?"</div>
 
           </div>
 
@@ -771,7 +788,7 @@ footer{
               autocomplete="off"
             >
 
-            <button class="voice-btn" id="voiceBtn">
+            <button class="voice-btn" id="voiceBtn" title="Voice input">
               🎙️
             </button>
 
@@ -896,7 +913,7 @@ footer{
 
         </div>
 
-        <p>
+        <p id="sensorNote">
           No external RF/Wi-Fi sensor connected.
         </p>
 
@@ -1049,6 +1066,7 @@ updateNetwork();
 var messages = document.getElementById("messages");
 var userInput = document.getElementById("userInput");
 var sendBtn = document.getElementById("sendBtn");
+var voiceBtn = document.getElementById("voiceBtn");
 
 
 function addMessage(text,type){
@@ -1082,11 +1100,10 @@ function koliReply(question){
 
   if(
     q.indexOf("study plan") !== -1 ||
-    q.indexOf("পড়ার") !== -1 ||
     q.indexOf("পড়ার") !== -1
   ){
 
-    return "আজকের জন্য সহজ পরিকল্পনা:\n\n1. 90 মিনিট — English Grammar\n2. 15 মিনিট — Break\n3. 90 মিনিট — বাংলা\n4. 30 মিনিট — Revision\n5. রাতে — ভুলগুলো আবার দেখো।\n\nএকসাথে অনেক কিছু না করে একটি topic শেষ করে পরেরটায় যাও।";
+    return "আজকের জন্য সহজ পরিকল্পনা:\n\n1. 90 মিনিট — English Grammar\n2. 15 মিনিট — Break\n3. 90 মিনিট — বাংলা\n4. 30 মিনিট — Revision\n5. রাতে — ভুলগুলো আবার দেখো।\n\nএকসাথে অনেক কিছু না করে একটি topic শেষ করে পরেরটায় যাও।";
 
   }
 
@@ -1096,7 +1113,7 @@ function koliReply(question){
     q.indexOf("মোটিভেশন") !== -1
   ){
 
-    return "Motivation-এর অপেক্ষা না করে ছোট একটা কাজ শুরু করো। শুধু 25 মিনিট মন দিয়ে পড়ার target নাও। শুরু হয়ে গেলে পরের 25 মিনিট অনেক সহজ লাগে।";
+    return "Motivation-এর অপেক্ষা না করে ছোট একটা কাজ শুরু করো। শুধু 25 মিনিট মন দিয়ে পড়ার target নাও। শুরু হয়ে গেলে পরের 25 মিনিট অনেক সহজ লাগে।";
 
   }
 
@@ -1107,7 +1124,7 @@ function koliReply(question){
     q.indexOf("আজ") !== -1
   ){
 
-    return "আজ ৩টা গুরুত্বপূর্ণ কাজ বেছে নাও:\n\n• সবচেয়ে জরুরি পড়া\n• একটি revision\n• একটি ছোট personal task\n\n৩টা শেষ হলে তারপর extra কাজ করো।";
+    return "আজ ৩টা গুরুত্বপূর্ণ কাজ বেছে নাও:\n\n• সবচেয়ে জরুরি পড়া\n• একটি revision\n• একটি ছোট personal task\n\n৩টা শেষ হলে তারপর extra কাজ করো।";
 
   }
 
@@ -1119,7 +1136,7 @@ function koliReply(question){
     q.indexOf("হ্যালো") !== -1
   ){
 
-    return "Hello Shisir 👋 আমি KOLI। কী নিয়ে কাজ করতে চাও?";
+    return "Hello Shisir 👋 আমি KOLI। কী নিয়ে কাজ করতে চাও?";
 
   }
 
@@ -1134,7 +1151,7 @@ function koliReply(question){
   }
 
 
-  return "আমি তোমার প্রশ্নটি পেয়েছি। এই GitHub version-এ এখনো real AI model connected নেই। Real AI চালাতে secure backend/API connection প্রয়োজন হবে।";
+  return "আমি তোমার প্রশ্নটি পেয়েছি। এই GitHub version-এ এখনো real AI model connected নেই। Real AI চালাতে secure backend/API connection প্রয়োজন হবে।";
 
 }
 
@@ -1147,26 +1164,4 @@ function sendMessage(){
     return;
   }
 
-  addMessage(text,"user");
-
-  userInput.value = "";
-
-  setTimeout(function(){
-
-    var reply = koliReply(text);
-
-    addMessage(reply,"ai");
-
-    speak(reply);
-
-  },400);
-
-}
-
-
-sendBtn.addEventListener("click",sendMessage);
-
-
-userInput.addEventListener("keydown",function(event){
-
-  if(event.key === "
+  a
